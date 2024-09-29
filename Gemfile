@@ -18,17 +18,11 @@ gem "cssbundling-rails"
 
 gem "jbuilder"
 
-# gem "redis", ">= 4.0.1"
-
-# gem "kredis"
-
-# gem "bcrypt", "~> 3.1.7"
+gem 'dotenv-rails', groups: [:development, :test]
 
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem "bootsnap", require: false
-
-# gem "image_processing", "~> 1.2"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
