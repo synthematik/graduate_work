@@ -1,0 +1,44 @@
+format: simple
+
+inherit_from:
+  - .rubocop/rubocop_rspec.yml
+  - .rubocop/rubocop_rails.yml
+
+AllCops:
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/data_schema.rb'
+    - 'bin/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+  DisplayCopNames: true
+  TargetRubyVersion: 3.1
+
+Standard/SemanticBlocks:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - 'Gemfile'
+    - 'db/**/*'
+    - 'spec/**/*'
+  Include:
+    - 'app/views/**/*'
+
+Style/LambdaCall:
+  Enabled: false
+
+Layout/ExtraSpacing:
+  AllowForAlignment: false
+  AllowBeforeTrailingComments: true
+
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+
+Style/MutableConstant:
+  EnforcedStyle: literals
