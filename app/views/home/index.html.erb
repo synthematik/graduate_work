@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Institute Navbar - Modern Redesign</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+      body {
+          font-family: 'Inter', sans-serif;
+      }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Navbar -->
+<header class="bg-white shadow-md">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <!-- Logo and Title -->
+    <div class="flex items-center space-x-4">
+      <img src="https://vsko.ru/wp-content/uploads/2021/08/1nlhpjfd_fs.jpg" alt="Logo" class="h-12">
+      <h1 class="text-2xl font-bold text-gray-800">ЮФУ - Институт ММиКН</h1>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex space-x-8">
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">Новости</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">Структура</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">Обучение</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">Наука</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">История</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 font-semibold">Поиск</a>
+    </nav>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button id="menu-toggle" class="focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" class="hidden md:hidden bg-white px-6 py-4">
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold mb-2">Новости</a>
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold mb-2">Структура</a>
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold mb-2">Обучение</a>
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold mb-2">Наука</a>
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold mb-2">История</a>
+    <a href="#" class="block text-gray-600 hover:text-blue-600 font-semibold">Поиск</a>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="bg-blue-600 text-white py-20">
+  <div class="container mx-auto text-center">
+    <h2 class="text-4xl font-bold mb-4">Добро пожаловать в Институт ММиКН</h2>
+    <p class="text-lg mb-6">Учись на мехмате и будь лучшим! Мы предлагаем отличные возможности для образования и научных исследований.</p>
+    <a href="#" class="bg-white text-blue-600 font-semibold px-8 py-3 rounded-full hover:bg-gray-100">Узнать больше</a>
+  </div>
+</section>
+
+<!-- Main Content Section -->
+<section class="py-16 bg-gray-100">
+  <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+    <!-- News Card -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <img src="https://images.unsplash.com/photo-1593642634443-44adaa06623a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60" alt="News" class="rounded-lg mb-4">
+      <h3 class="text-2xl font-semibold mb-2">Подготовка школьников к экзаменам</h3>
+      <p class="text-gray-600">«Нулевой курс мехмата» проводит набор школьников 10 – 11 классов на 2024 – 2025 учебный год. Программа включает подготовку к экзаменам по профильной математике и информатике.</p>
+      <a href="#" class="text-blue-600 hover:underline font-semibold mt-4 inline-block">Подробнее...</a>
+    </div>
+
+    <!-- Event Card -->
+    <div class="bg-white shadow-lg rounded-lg p-6">
+      <img src="https://images.unsplash.com/photo-1560179707-f6241d9f5409?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60" alt="Event" class="rounded-lg mb-4">
+      <h3 class="text-2xl font-semibold mb-2">Литературные чтения возвращаются</h3>
+      <p class="text-gray-600">Приглашаем всех, кто любит хорошие стихи, 28 сентября на литературные чтения, посвященные творчеству Саши Чёрного.</p>
+      <a href="#" class="text-blue-600 hover:underline font-semibold mt-4 inline-block">Подробнее...</a>
+    </div>
+  </div>
+</section>
+
+<script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+</script>
+
+</body>
+</html>
