@@ -12,6 +12,8 @@ gem "jsbundling-rails"
 
 gem "turbo-rails"
 
+gem 'bcrypt', '~> 3.1.7'
+
 gem "stimulus-rails"
 
 gem "cssbundling-rails"
@@ -28,6 +30,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
   gem "brakeman", require: false
   gem "rubocop-rails-omakase", require: false
+  gem 'lefthook'
 end
 
 group :development do

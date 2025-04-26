@@ -1,0 +1,5 @@
+pre-commit:
+  parallel: true
+  commands:
+    rubocop_autocorrect:
+      run: bundle exec rubocop --force-exclusion --autocorrect
