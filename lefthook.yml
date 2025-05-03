@@ -1,7 +1,7 @@
 pre-commit:
   parallel: true
   commands:
-    standard:
-      run: bundle exec standard --fix
+    standardrb:
+      run: bundle exec standardrb --fix
     rubocop:
       run: bundle exec rubocop --force-exclusion
