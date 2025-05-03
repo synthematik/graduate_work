@@ -13,7 +13,7 @@ AllCops:
     - 'vendor/**/*'
     - 'node_modules/**/*'
   DisplayCopNames: true
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.4
 
 Standard/SemanticBlocks:
   Enabled: false

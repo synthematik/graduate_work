@@ -1,44 +1,36 @@
 source "https://rubygems.org"
 
+ruby "~> 3.4.2"
+
 gem "rails", "~> 7.2.2.1"
-
-gem "sprockets-rails"
-
-gem "pg", "~> 1.1"
-
-gem "puma", ">= 5.0"
-
-gem "jsbundling-rails"
-
-gem "turbo-rails"
-
-gem 'bcrypt', '~> 3.1.7'
-
-gem "stimulus-rails"
-
-gem "cssbundling-rails"
-
-gem "jbuilder"
-
-gem 'dotenv-rails', groups: [:development, :test]
-
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
-gem "bootsnap", require: false
+gem "pg", "~> 1.1"                    # PostgreSQL
+gem "puma", ">= 5.0"                  # Веб-сервер
+gem "bcrypt", "~> 3.1.7"             # Для has_secure_password
+gem "sprockets-rails"                # Поддержка ассетов
+gem "turbo-rails"                    # Hotwire
+gem "stimulus-rails"                # Stimulus
+gem "jbuilder"                       # Для JSON API
+gem "jsbundling-rails"              # Поддержка JS
+gem "cssbundling-rails"             # Поддержка CSS
+gem "bootsnap", require: false      # Ускорение загрузки
+gem "tzinfo-data", platforms: %i[windows jruby] # Для Windows
+gem "dotenv-rails", groups: [:development, :test] # ENV-переменные
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem "brakeman", require: false
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude" # отладка
+  gem "rubocop", require: false             # линтер
+  gem "standard", require: false            # стандарт форматирования
   gem "rubocop-rails-omakase", require: false
-  gem 'lefthook'
+  gem "lefthook"                            # гит-хуки
+  gem "brakeman", require: false            # статический анализатор
 end
 
 group :development do
-  gem "web-console"
-  gem "error_highlight", ">= 0.4.0", platforms: [:ruby]
+  gem "web-console"                         # консоль в браузере
+  gem "error_highlight", ">= 0.4.0", platforms: [:ruby] # лучшее отображение ошибок
 end
 
 group :test do
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem "capybara"                            # интеграционные тесты
+  gem "selenium-webdriver"                 # для браузерного тестирования
 end
