@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:17.4-bullseye
+    container_name: diplom-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  back:
+    image: back:v1
+    container_name: diplom-back
+    restart: always
+    ports:
+      - "0.0.0.0:8080:3000"

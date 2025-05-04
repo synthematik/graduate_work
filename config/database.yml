@@ -10,11 +10,12 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DATABASE", 'diplom_meh_development') %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE_DEV") %>
 
 test:
   <<: *default
-  database: <%= ENV.fetch("POSTGRES_DATABASE", 'diplom_meh_development') %>
+  database: <%= ENV.fetch("POSTGRES_DATABASE_TEST") %>
 
 production:
   <<: *default
+  database: <%= ENV.fetch("POSTGRES_DATABASE_PROD") %>
