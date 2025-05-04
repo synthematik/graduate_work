@@ -28,10 +28,12 @@ RUN bundle install
 COPY . .
 
 # Предкомпиляция ассетов (если нужно)
-# RUN bundle exec rails assets:precompile
+RUN bundle exec rails assets:precompile
 
 # Порт, который будет слушать приложение
 EXPOSE 3000
 
 # Команда для запуска сервера
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+#CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
+
+CMD ["foreman", "start"]
