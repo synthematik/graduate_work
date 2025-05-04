@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_04_26_155458) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,29 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_26_155458) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "departments", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "middle_name"
+    t.string "degree"
+    t.string "rank"
+    t.string "description"
+    t.json "links"
+    t.bigint "department_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["department_id"], name: "index_employees_on_department_id"
+    t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
   create_table "schedules", force: :cascade do |t|
@@ -44,8 +67,11 @@ ActiveRecord::Schema[7.2].define(version: 2025_04_26_155458) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "remember_me_token_digest"
   end
 
   add_foreign_key "articles", "users"
+  add_foreign_key "employees", "departments"
+  add_foreign_key "employees", "users"
   add_foreign_key "schedules", "users"
 end

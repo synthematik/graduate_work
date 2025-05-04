@@ -1,0 +1,27 @@
+<div class="flex items-center justify-center h-screen bg-gray-100" style="margin-left: 37%; margin-top: 5%;">
+
+  <div class="card p-3" style="width: 400px;">
+    <div class="form-group">
+      <%= form_with model: @user, html: { multipart: true }, data: { turbo: false } do |form| %>
+        <%= form.label :email, "Email", class: 'mb-1' %>
+        <%= form.text_field :email, class: 'form-control mb-2' %>
+
+        <%= form.label :password, 'Пароль', class: 'mb-1' %>
+        <%= form.text_field :password, class: 'form-control mb-2' %>
+
+        <%= form.label :password_confirmation, 'Пароль второй раз', class: 'mb-1' %>
+        <%= form.text_field :password_confirmation, class: 'form-control mb-2' %>
+
+        <div style="margin-top: 20px"><%= form.submit 'Зарегистрироваться', class: "btn btn-outline-secondary btn-block mb-3"%></div>
+
+        <span class="mt-2">
+                Есть аккаунт?
+                <a href="/session/new"
+                   class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
+                    Войти
+                </a>
+        </span>
+      <% end %>
+    </div>
+  </div>
+</div>

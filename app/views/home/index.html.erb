@@ -1,1 +1,11 @@
-привет
+<% @users.each do |user| %>
+  <div class="profile">
+    <%= user.email %>
+  </div>
+<% end %>
+
+<% @articles.each do |article| %>
+  <div class="article">
+    <%= article.title %>
+  </div>
+<% end %>
