@@ -5,5 +5,6 @@ class Schedule < ApplicationRecord
   enum semester_type: {winter: "winter", summer: "summer", spring: "spring", autumn: "autumn"}
   enum schedule_type: {regular_schedule: "regular_schedule", exam_schedule: "exam_schedule", session_schedule: "session_schedule", academic_plan: "academic_plan"}
 
-  validates :title, :start_year, :end_year, :file_url, presence: true
+  validates :title, presence: true, length: {minimum: 5}
+  validates :start_year, :end_year, :file_url, presence: true
 end

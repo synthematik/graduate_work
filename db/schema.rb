@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
+ActiveRecord::Schema[7.2].define(version: 2025_05_06_202018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  # Новости
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "body"
@@ -23,6 +24,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
+  # Кафедры. TODO докинуть необходимое
   create_table "departments", force: :cascade do |t|
     t.string "name"
     t.string "description"
@@ -30,6 +32,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
     t.datetime "updated_at", null: false
   end
 
+  # Сотрудники. degree - степень, rank - звание. TODO Докинуть должность
   create_table "employees", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "first_name"
@@ -46,6 +49,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
     t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
+  # Расписания
   create_table "schedules", force: :cascade do |t|
     t.string "title"
     t.integer "course_number"
@@ -61,6 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
     t.index ["user_id"], name: "index_schedules_on_user_id"
   end
 
+  # Пользователи
   create_table "users", force: :cascade do |t|
     t.string "login"
     t.string "email"
@@ -68,6 +73,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_04_160418) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "remember_me_token_digest"
+    t.integer "role", default: 0, null: false
+    t.index ["role"], name: "index_users_on_role"
   end
 
   add_foreign_key "articles", "users"
