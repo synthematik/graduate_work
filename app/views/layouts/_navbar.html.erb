@@ -1,39 +1,56 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-  <div class="container">
-    <%= link_to root_path, class: "navbar-brand fw-bold d-flex align-items-center" do %>
-      <span class="ms-2">ИММИКН ЮФУ</span>
-    <% end %>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="mainNavbar">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <%= link_to "Новости", root_path, class: "nav-link px-3 py-2 rounded-3 #{'active fw-bold' if current_page?(root_path)}" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Расписание", "#", class: "nav-link px-3 py-2 rounded-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Сотрудники", "#", class: "nav-link px-3 py-2 rounded-3" %>
-        </li>
-        <li class="nav-item">
-          <%= link_to "Кафедры", "#", class: "nav-link px-3 py-2 rounded-3" %>
-        </li>
-      </ul>
-
-      <div class="d-flex">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/session/new">Войти</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/users/new">Зарегистрироваться</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
+<div class="border-r border- h-full w-full border-opacity-30 border-gray-300 p-4 bg-cyan-200/10">
+  <nav>
+    <ul class="flex flex-col gap-3 text-cyan-700/80">
+      <li>
+        <div>
+          <button class="font-bold text-xl">Общая информация</button>
+          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
+            <li class="hover:cursor-pointer hover:text-gray-700">Расписание</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Сервис БРС</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Международные проекты</li>
+          </ul>
+        </div>
+      </li>
+      <div class="h-px bg-gray-400"></div>
+      <li>
+        <div>
+          <button class="font-bold text-xl">Студентам и аспирантам</button>
+          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
+            <li class="hover:cursor-pointer hover:text-gray-700">Кабинет студента</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Учебная среда Moodle</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Корпоративные траектории</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Сайт ФИИТ</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Механика и математическое моделирование</li>
+            <li class="hover:cursor-pointer hover:text-gray-700"> Лаборатория ИИ и робототехники</li>
+          </ul>
+        </div>
+      </li>
+      <div class="h-px bg-gray-400"></div>
+      <li>
+        <div>
+          <button class="font-bold text-xl">Поступление</button>
+          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
+            <li class="hover:cursor-pointer hover:text-gray-700">Образовательная программа "Математика, механика и матмоделирование"</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Воскресная компьютерная школа</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Воскресная математическая школа</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Нулевой курс</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Аспирантура</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Магистратура</li>
+          </ul>
+        </div>
+      </li>
+      <div class="h-px bg-gray-400"></div>
+      <li>
+        <div>
+          <button class="font-bold text-xl">Разное</button>
+          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
+            <li class="hover:cursor-pointer hover:text-gray-700">Фотогалерея</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Файловый архив</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Регистрация на мероприятия</li>
+            <li class="hover:cursor-pointer hover:text-gray-700">Поддержка компьютерных классов</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</div>
