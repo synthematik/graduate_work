@@ -1,3 +1,7 @@
+volumes:
+  postgres-data:
+    name: "diplom-postgres-data"
+
 services:
   postgres:
     image: postgres:17.4-bullseye
@@ -5,6 +9,8 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
   back:
     image: back:v1
     container_name: diplom-back
