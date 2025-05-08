@@ -1,26 +1,31 @@
-<div class="flex items-center justify-center h-screen bg-gray-100" style="margin-left: 37%; margin-top: 10%;">
-  <div class="card p-3" style="width: 400px;">
-    <div class="form-group">
-      <%= form_with scope: :session, url: session_path, data: {turbo: false} do |form| %>
+<body>
+  <div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-sm border-0" style="width: 100%; max-width: 400px;">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4">Вход в систему</h2>
 
-        <%= form.label :email, class: 'mb-1' %>
-        <%= form.text_field :email, class: 'form-control mb-2' %>
+        <%= form_with scope: :session, url: session_path, html: { class: 'needs-validation' }, data: { turbo: false } do |form| %>
+          <div class="mb-3">
+            <%= form.label :email, "Email", class: 'form-label fw-semibold' %>
+            <%= form.email_field :email, class: 'form-control form-control-lg', required: true %>
+          </div>
 
-        <%= form.label :password, 'Пароль', class: 'mb-1' %>
-        <%= form.password_field :password, class: 'form-control mb-2' %>
+          <div class="mb-4">
+            <%= form.label :password, 'Пароль', class: 'form-label fw-semibold' %>
+            <%= form.password_field :password, class: 'form-control form-control-lg', required: true %>
+            <div class="text-end mt-2">
+              <%= link_to "Забыли пароль?", "#", class: "small text-decoration-none" %>
+            </div>
+          </div>
 
-        <div style="margin-top: 20px">
-          <%= form.submit 'Войти', class: "btn btn-outline-secondary btn-block mb-3"%>
-        </div>
+          <%= form.submit 'Войти', class: "btn btn-primary btn-lg w-100 mb-3" %>
 
-        <span class="mt-2">
-                Нет аккаунта?
-                <a href="/users/new"
-                   class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
-                    Зарегистрироваться
-                </a>
-        </span>
-      <% end %>
+          <div class="text-center pt-2">
+            <span class="text-muted">Нет аккаунта?</span>
+            <%= link_to "Зарегистрироваться", new_user_path, class: "ms-1 text-decoration-none" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+</body>

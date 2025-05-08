@@ -14,6 +14,7 @@ AllCops:
     - 'node_modules/**/*'
   DisplayCopNames: true
   TargetRubyVersion: 3.4
+  SuggestExtensions: false
 
 Standard/SemanticBlocks:
   Enabled: false

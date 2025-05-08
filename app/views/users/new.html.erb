@@ -1,27 +1,33 @@
-<div class="flex items-center justify-center h-screen bg-gray-100" style="margin-left: 37%; margin-top: 5%;">
+<body>
+  <div class="min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-sm border-0" style="width: 100%; max-width: 400px;">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-4">Регистрация</h2>
 
-  <div class="card p-3" style="width: 400px;">
-    <div class="form-group">
-      <%= form_with model: @user, html: { multipart: true }, data: { turbo: false } do |form| %>
-        <%= form.label :email, "Email", class: 'mb-1' %>
-        <%= form.text_field :email, class: 'form-control mb-2' %>
+        <%= form_with model: @user, html: { multipart: true, class: 'needs-validation' }, data: { turbo: false } do |form| %>
+          <div class="mb-3">
+            <%= form.label :email, "Email", class: 'form-label fw-semibold' %>
+            <%= form.email_field :email, class: 'form-control form-control-lg', required: true %>
+          </div>
 
-        <%= form.label :password, 'Пароль', class: 'mb-1' %>
-        <%= form.text_field :password, class: 'form-control mb-2' %>
+          <div class="mb-3">
+            <%= form.label :password, 'Пароль', class: 'form-label fw-semibold' %>
+            <%= form.password_field :password, class: 'form-control form-control-lg', required: true %>
+          </div>
 
-        <%= form.label :password_confirmation, 'Пароль второй раз', class: 'mb-1' %>
-        <%= form.text_field :password_confirmation, class: 'form-control mb-2' %>
+          <div class="mb-4">
+            <%= form.label :password_confirmation, 'Подтверждение пароля', class: 'form-label fw-semibold' %>
+            <%= form.password_field :password_confirmation, class: 'form-control form-control-lg', required: true %>
+          </div>
 
-        <div style="margin-top: 20px"><%= form.submit 'Зарегистрироваться', class: "btn btn-outline-secondary btn-block mb-3"%></div>
+          <%= form.submit 'Зарегистрироваться', class: "btn btn-primary btn-lg w-100 mb-3" %>
 
-        <span class="mt-2">
-                Есть аккаунт?
-                <a href="/session/new"
-                   class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600">
-                    Войти
-                </a>
-        </span>
-      <% end %>
+          <div class="text-center pt-2">
+            <span class="text-muted">Есть аккаунт?</span>
+            <%= link_to "Войти", new_session_path, class: "ms-1 text-decoration-none" %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+</body>

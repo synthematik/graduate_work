@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <%= link_to root_path, class: "navbar-brand fw-bold d-flex align-items-center" do %>
+      <span class="ms-2">ИММИКН ЮФУ</span>
+    <% end %>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to "Новости", root_path, class: "nav-link px-3 py-2 rounded-3 #{'active fw-bold' if current_page?(root_path)}" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Расписание", "#", class: "nav-link px-3 py-2 rounded-3" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Сотрудники", "#", class: "nav-link px-3 py-2 rounded-3" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Кафедры", "#", class: "nav-link px-3 py-2 rounded-3" %>
+        </li>
+      </ul>
+
+      <div class="d-flex">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/session/new">Войти</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/new">Зарегистрироваться</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
