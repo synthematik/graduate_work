@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<!-- app/views/layouts/application.html.erb -->
 <html lang="ru">
   <head>
     <title><%= content_for(:title) || "Мехмат ЮФУ - Институт математики, механики и компьютерных наук" %></title>
@@ -131,12 +133,13 @@
 
         .dropdown-content {
             max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
+            overflow-y: hidden;
+            transition: all 0.25s;
         }
 
         .dropdown-open .dropdown-content {
             max-height: 500px;
+            transition: all 0.4s;
         }
     </style>
 
@@ -167,7 +170,9 @@
 
 
   <body class="flex flex-col min-h-screen bg-gray-50">
-    <% unless params["controller"] == "errors" %>
+    <% unless (params["controller"] == "errors") ||
+            (controller_name == 'users' && action_name == 'new') ||
+            (controller_name == 'sessions' && action_name == 'new') %>
       <%= render "layouts/header" %>
 
       <%= render "layouts/mobile_menu" %>
@@ -185,8 +190,10 @@
       </div>
     </div>
 
-  <% unless params["controller"] == "errors"%>
-    <%= render "layouts/footer" %>
-  <% end %>
+    <% unless (params["controller"] == "errors") ||
+              (controller_name == 'users' && action_name == 'new') ||
+              (controller_name == 'sessions' && action_name == 'new') %>
+      <%= render "layouts/footer" %>
+    <% end %>
   </body>
 </html>

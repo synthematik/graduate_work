@@ -1,32 +1,48 @@
-<div class="w-full h-full flex justify-center">
-  <div class="h-full bg-cyan-100/10 flex flex-col justify-center">
-    <div class="border rounded-xl border-gray-300">
-      <div class="p-4">
-        <h2 class="text-xl font-bold text-center mb-4">Вход в систему</h2>
+<!-- app/views/sessions/new.html.erb -->
 
-        <%= form_with scope: :session, url: session_path, html: { class: 'needs-validation' }, data: { turbo: false } do |form| %>
-          <div class="mb-3 flex gap-2 ">
-            <%= form.label :email, "Email", class: "font-semibold w-15" %>
-            <%= form.email_field :email, class: 'grow rounded-sm border border-gray-200 h-8 px-1', required: true %>
+<div class="py-12 bg-gray-50 mt-20">
+  <div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="bg-gradient-to-r from-teal-700 to-teal-800 px-6 py-4">
+      <div class="flex items-center justify-between">
+        <button onclick="window.history.back()" class="text-white hover:text-teal-200 transition duration-300">
+          <i class="fas fa-arrow-left mr-1"></i> Назад
+        </button>
+        <h1 class="text-white text-xl font-bold mr-7">Вход в систему</h1>
+        <div class="w-8"></div>
+      </div>
+    </div>
+
+    <div class="p-6">
+      <%= form_with url: session_path, method: :post, class: "space-y-4", data: { turbo: false } do |form| %>
+        <div>
+          <%= form.label :email, "Email", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.email_field :email, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent", required: true, placeholder: "your@email.com" %>
+        </div>
+
+        <div>
+          <%= form.label :password, "Пароль", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.password_field :password, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent", required: true, placeholder: "••••••••" %>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <%= form.check_box :remember_me_token, class: "h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded" %>
+            <%= form.label :remember_me_token, "Запомнить меня", class: "ml-2 block text-sm text-gray-700" %>
           </div>
 
-          <div class="mb-4 flex gap-2">
-            <%= form.label :password, 'Пароль', class: 'font-semibold w-15' %>
-            <%= form.password_field :password, class: 'grow rounded-sm border border-gray-200 h-8 px-1', required: true %>
+          <div class="text-sm">
+            <a href="#" class="font-medium text-teal-600 hover:text-teal-500">Забыли пароль?</a>
           </div>
-          <div class="text-end mt-2">
-            <%= link_to "Забыли пароль?", "#", class: "hover:text-cyan-500" %>
-          </div>
+        </div>
 
-          <div class="w-100 flex justify-center">
-            <%= form.submit 'Войти', class: " text-lg font-semibold border border-gray-300 py-2 px-4 rounded-sm my-3 hover:cursor-pointer hover:bg-cyan-500 hover:text-white" %>
-          </div>
+        <%= form.submit "Войти", class: "w-full py-2 px-4 bg-teal-600 hover:bg-teal-700 focus:ring-teal-500 focus:ring-offset-teal-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg mt-4" %>
+      <% end %>
 
-          <div class="text-center pt-2">
-            <span class="text-muted">Нет аккаунта?</span>
-            <%= link_to "Зарегистрироваться", new_user_path, class: "hover:text-cyan-500" %>
-          </div>
-        <% end %>
+      <div class="text-center mt-6">
+        <p class="text-sm text-gray-600">
+          Нет аккаунта?
+          <%= link_to "Зарегистрироваться", new_user_path, class: "font-medium text-teal-600 hover:text-teal-500" %>
+        </p>
       </div>
     </div>
   </div>
