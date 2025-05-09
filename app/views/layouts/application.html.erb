@@ -1,34 +1,243 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Мехмат ЮФУ" %></title>
+    <title><%= content_for(:title) || "Мехмат ЮФУ - Институт математики, механики и компьютерных наук" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <%= yield :head %>
 
     <!-- <link rel="manifest" href="/manifest.json"> -->
-    <!-- <link rel="icon" href="/icon.png" type="image/png"> -->
-    <!-- <link rel="icon" href="/icon.svg" type="image/svg+xml"> -->
-    <!-- <link rel="apple-touch-icon" href="/icon.png"> -->
+     <link rel="icon" href="/icon.png" type="image/png">
+     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+     <link rel="apple-touch-icon" href="/icon.png">
     <!-- <link rel="stylesheet" href="/assets/builds/application.css"> -->
     <!-- <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %> -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Медиа-запросы для адаптивности */
+        @media (max-width: 1024px) {
+            .desktop-sidebar {
+                display: none;
+            }
+            .mobile-menu {
+                display: block;
+            }
+            .main-content {
+                width: 100%;
+            }
+
+            .header-logo {
+                width: 6rem;  /* 96px */
+                position: relative;
+                left: auto;
+                top: auto;
+                transform: none;
+            }
+        }
+
+        @media (min-width: 1536px) {
+            .container {
+                max-width: 1536px;
+            }
+
+            .main-content {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .desktop-sidebar {
+                width: 300px;
+            }
+        }
+
+        @media (min-width: 2000px) {
+            .container {
+                max-width: 1800px;
+            }
+
+            .desktop-sidebar {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .mobile-nav {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                padding: 0.5rem 0;
+            }
+
+            .mobile-nav ul {
+                flex-grow: 1;
+                justify-content: space-around;
+            }
+
+            .mobile-nav li {
+                margin: 0;
+            }
+
+            .mobile-nav a {
+                font-size: 0.9rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .header-logo {
+                width: 4rem;  /* 64px */
+            }
+        }
+
+        .header-logo {
+            width: 7rem;  /* 112px */
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .header-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-item {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0d9488;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover:after {
+            width: 100%;
+        }
+
+        .dropdown-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .dropdown-open .dropdown-content {
+            max-height: 500px;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            const dropdownButtons = document.querySelectorAll('.dropdown-button');
+
+            dropdownButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.classList.toggle('dropdown-open');
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+        });
+    </script>
   </head>
 
-  <body class="flex flex-col">
-    <%= render "layouts/header" %>
-    <div class="flex grow h-screen">
-      <div class="basis-1/6">
-        <%= render "layouts/navbar" %>
+  <body class="flex flex-col min-h-screen bg-gray-50">
+  <%= render "layouts/header" %>
+
+  <!-- Мобильное меню (скрыто по умолчанию) -->
+  <div id="mobile-menu" class="lg:hidden bg-white shadow-lg border-b border-gray-200 hidden">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-center mb-4">
+        <div class="relative w-full max-w-md">
+          <input
+            type="text"
+            placeholder="Поиск..."
+            class="w-full py-2 px-4 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+        </div>
       </div>
-      <div class="basis-5/6">
+
+      <div class="space-y-4">
+        <div class="border-b border-gray-200 pb-3">
+          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+            Общая информация
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+            <li><a href="#" class="hover:text-teal-500">Расписание</a></li>
+            <li><a href="https://grade.sfedu.ru/" class="hover:text-teal-500">Сервис БРС</a></li>
+            <li><a href="#" class="hover:text-teal-500">Международные проекты</a></li>
+          </ul>
+        </div>
+
+        <div class="border-b border-gray-200 pb-3">
+          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+            Студентам и аспирантам
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+            <li><a href="#" class="hover:text-teal-500">Кабинет студента</a></li>
+            <li><a href="https://edu.mmcs.sfedu.ru/" class="hover:text-teal-500">Учебная среда Moodle</a></li>
+            <li><a href="#" class="hover:text-teal-500">Корпоративные траектории</a></li>
+          </ul>
+        </div>
+
+        <div class="border-b border-gray-200 pb-3">
+          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+            Поступление
+            <i class="fas fa-chevron-down"></i>
+          </button>
+          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+            <li><a href="#" class="hover:text-teal-500">Образовательная программа</a></li>
+            <li><a href="#" class="hover:text-teal-500">Воскресная компьютерная школа</a></li>
+            <li><a href="#" class="hover:text-teal-500">Аспирантура</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Основное содержимое -->
+  <div class="flex-grow flex">
+    <!-- Боковая панель (только для десктопов) -->
+    <div class="desktop-sidebar w-64 hidden lg:block">
+      <%= render "layouts/navbar" %>
+    </div>
+
+    <!-- Основное содержимое -->
+    <div class="main-content flex-grow p-4 lg:p-6 bg-white md:bg-gray-50">
+      <div class="mx-auto w-full max-w-[1800px] px-4">
         <%= yield %>
       </div>
     </div>
-    <%= render "layouts/footer" %>
+  </div>
+
+  <%= render "layouts/footer" %>
   </body>
 </html>

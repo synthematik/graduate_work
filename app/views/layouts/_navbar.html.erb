@@ -1,56 +1,68 @@
-<div class="border-r border- h-full w-full border-opacity-30 border-gray-300 p-4 bg-cyan-200/10">
-  <nav>
-    <ul class="flex flex-col gap-3 text-cyan-700/80">
-      <li>
-        <div>
-          <button class="font-bold text-xl">Общая информация</button>
-          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
-            <li class="hover:cursor-pointer hover:text-gray-700">Расписание</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Сервис БРС</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Международные проекты</li>
-          </ul>
-        </div>
-      </li>
-      <div class="h-px bg-gray-400"></div>
-      <li>
-        <div>
-          <button class="font-bold text-xl">Студентам и аспирантам</button>
-          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
-            <li class="hover:cursor-pointer hover:text-gray-700">Кабинет студента</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Учебная среда Moodle</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Корпоративные траектории</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Сайт ФИИТ</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Механика и математическое моделирование</li>
-            <li class="hover:cursor-pointer hover:text-gray-700"> Лаборатория ИИ и робототехники</li>
-          </ul>
-        </div>
-      </li>
-      <div class="h-px bg-gray-400"></div>
-      <li>
-        <div>
-          <button class="font-bold text-xl">Поступление</button>
-          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
-            <li class="hover:cursor-pointer hover:text-gray-700">Образовательная программа "Математика, механика и матмоделирование"</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Воскресная компьютерная школа</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Воскресная математическая школа</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Нулевой курс</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Аспирантура</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Магистратура</li>
-          </ul>
-        </div>
-      </li>
-      <div class="h-px bg-gray-400"></div>
-      <li>
-        <div>
-          <button class="font-bold text-xl">Разное</button>
-          <ul class="flex flex-col gap-1 text-cyan-800/60 ml-5">
-            <li class="hover:cursor-pointer hover:text-gray-700">Фотогалерея</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Файловый архив</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Регистрация на мероприятия</li>
-            <li class="hover:cursor-pointer hover:text-gray-700">Поддержка компьютерных классов</li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </nav>
+<div class="bg-white border-r border-gray-200 shadow-sm h-full">
+  <div class="p-4 space-y-6">
+    <div>
+      <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+        Общая информация
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Расписание</a></li>
+        <li><a href="https://grade.sfedu.ru/" class="hover:text-teal-500 transition duration-300">Сервис БРС</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Международные проекты</a></li>
+      </ul>
+    </div>
+
+    <div class="border-t border-gray-200 pt-4">
+      <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+        Студентам и аспирантам
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Кабинет студента</a></li>
+        <li><a href="https://edu.mmcs.sfedu.ru/" class="hover:text-teal-500 transition duration-300">Учебная среда Moodle</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Корпоративные траектории</a></li>
+        <li><a href="http://it.mmcs.sfedu.ru/" class="hover:text-teal-500 transition duration-300">Сайт ФИИТ</a></li>
+        <li><a href="https://air.mmcs.sfedu.ru/" class="hover:text-teal-500 transition duration-300">Лаборатория ИИ</a></li>
+      </ul>
+    </div>
+
+    <div class="border-t border-gray-200 pt-4">
+      <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+        Поступление
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Образовательная программа</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Воскресная компьютерная школа</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Воскресная математическая школа</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Нулевой курс</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Аспирантура</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Магистратура</a></li>
+      </ul>
+    </div>
+
+    <div class="border-t border-gray-200 pt-4">
+      <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+        Разное
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Фотогалерея</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Файловый архив</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Регистрация на мероприятия</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Поддержка</a></li>
+      </ul>
+    </div>
+
+    <div class="border-t border-gray-200 pt-4">
+      <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
+        Задать вопрос
+        <i class="fas fa-chevron-down"></i>
+      </button>
+      <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Задать вопрос</a></li>
+        <li><a href="#" class="hover:text-teal-500 transition duration-300">Ответы директора</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
