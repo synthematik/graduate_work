@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
   <head>
     <title><%= content_for(:title) || "Мехмат ЮФУ - Институт математики, механики и компьютерных наук" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,8 +15,7 @@
      <link rel="icon" href="/icon.png" type="image/png">
      <link rel="icon" href="/icon.svg" type="image/svg+xml">
      <link rel="apple-touch-icon" href="/icon.png">
-    <!-- <link rel="stylesheet" href="/assets/builds/application.css"> -->
-    <!-- <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %> -->
+     <!-- <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %> -->
 
     <style>
         body {
@@ -166,78 +165,28 @@
     </script>
   </head>
 
+
   <body class="flex flex-col min-h-screen bg-gray-50">
-  <%= render "layouts/header" %>
+    <% unless params["controller"] == "errors" %>
+      <%= render "layouts/header" %>
 
-  <!-- Мобильное меню (скрыто по умолчанию) -->
-  <div id="mobile-menu" class="lg:hidden bg-white shadow-lg border-b border-gray-200 hidden">
-    <div class="container mx-auto px-4 py-3">
-      <div class="flex justify-center mb-4">
-        <div class="relative w-full max-w-md">
-          <input
-            type="text"
-            placeholder="Поиск..."
-            class="w-full py-2 px-4 pr-10 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-          <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+      <%= render "layouts/mobile_menu" %>
+
+      <div class="flex-grow flex">
+        <div class="desktop-sidebar w-64 hidden lg:block">
+          <%= render "layouts/navbar" %>
         </div>
-      </div>
+    <% end %>
 
-      <div class="space-y-4">
-        <div class="border-b border-gray-200 pb-3">
-          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
-            Общая информация
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
-            <li><a href="#" class="hover:text-teal-500">Расписание</a></li>
-            <li><a href="https://grade.sfedu.ru/" class="hover:text-teal-500">Сервис БРС</a></li>
-            <li><a href="#" class="hover:text-teal-500">Международные проекты</a></li>
-          </ul>
-        </div>
-
-        <div class="border-b border-gray-200 pb-3">
-          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
-            Студентам и аспирантам
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
-            <li><a href="#" class="hover:text-teal-500">Кабинет студента</a></li>
-            <li><a href="https://edu.mmcs.sfedu.ru/" class="hover:text-teal-500">Учебная среда Moodle</a></li>
-            <li><a href="#" class="hover:text-teal-500">Корпоративные траектории</a></li>
-          </ul>
-        </div>
-
-        <div class="border-b border-gray-200 pb-3">
-          <button class="dropdown-button w-full flex justify-between items-center text-left font-semibold text-teal-700 hover:text-teal-500">
-            Поступление
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <ul class="dropdown-content pl-4 pt-2 space-y-2 text-gray-700">
-            <li><a href="#" class="hover:text-teal-500">Образовательная программа</a></li>
-            <li><a href="#" class="hover:text-teal-500">Воскресная компьютерная школа</a></li>
-            <li><a href="#" class="hover:text-teal-500">Аспирантура</a></li>
-          </ul>
+      <div class="main-content flex-grow p-4 lg:p-6 bg-white md:bg-gray-50">
+        <div class="mx-auto w-full max-w-[1800px] px-4">
+          <%= yield %>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Основное содержимое -->
-  <div class="flex-grow flex">
-    <!-- Боковая панель (только для десктопов) -->
-    <div class="desktop-sidebar w-64 hidden lg:block">
-      <%= render "layouts/navbar" %>
-    </div>
-
-    <!-- Основное содержимое -->
-    <div class="main-content flex-grow p-4 lg:p-6 bg-white md:bg-gray-50">
-      <div class="mx-auto w-full max-w-[1800px] px-4">
-        <%= yield %>
-      </div>
-    </div>
-  </div>
-
-  <%= render "layouts/footer" %>
+  <% unless params["controller"] == "errors"%>
+    <%= render "layouts/footer" %>
+  <% end %>
   </body>
 </html>
