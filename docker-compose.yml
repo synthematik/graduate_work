@@ -16,6 +16,6 @@ services:
     container_name: diplom-back
     restart: always
     ports:
-      - "0.0.0.0:8080:3000"
+      - "127.0.0.1:8080:3000"
     env_file:
       - .env
