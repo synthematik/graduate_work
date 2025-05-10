@@ -6,11 +6,11 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(email: params[:email])
+    user = User.find_by(email: session_params[:email])
 
-    if user&.authenticate(params[:password])
+    if user&.authenticate(session_params[:password])
       sign_in(user)
-      remember_user(user) if params[:remember_me] == "1" # TODO передавать из view
+      remember_user(user) if session_params[:remember_me] == "1"
       redirect_to root_path
     else
       render :new
@@ -20,5 +20,11 @@ class SessionsController < ApplicationController
   def destroy
     sign_out
     redirect_to root_path
+  end
+
+  private
+
+  def session_params
+    params.permit(:email, :password, :remember_me)
   end
 end

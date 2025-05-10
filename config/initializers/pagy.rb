@@ -15,8 +15,6 @@
 # Pagy::DEFAULT[:count_args]  = []                    # example for non AR ORMs
 # Pagy::DEFAULT[:max_pages]   = 3000                  # example
 
-require "pagy/extras/tailwind"
-
 # Extras
 # See https://ddnexus.github.io/pagy/categories/extra
 
