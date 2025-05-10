@@ -35,6 +35,10 @@
           </div>
         </div>
       <% end %>
+
+      <div class="flex justify-center">
+        <%= render partial: "shared/pagination", locals: { pagy: @pagy } %>
+      </div>
     </div>
 
     <%= render 'layouts/right_navbar' %>

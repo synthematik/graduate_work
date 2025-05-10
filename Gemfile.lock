@@ -170,6 +170,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.8-x86_64-linux-musl)
       racc (~> 1.4)
+    pagy (9.3.4)
     parallel (1.27.0)
     parser (3.3.8.0)
       ast (~> 2.4.1)
@@ -346,6 +347,7 @@ DEPENDENCIES
   jbuilder
   jsbundling-rails
   lefthook
+  pagy (~> 9.3)
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 7.2.2.1)

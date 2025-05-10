@@ -16,6 +16,7 @@ gem "bootsnap", require: false                  # Ускорение загру�
 gem "tzinfo-data", platforms: %i[windows jruby] # Для Windows
 gem "dotenv-rails", groups: [:development, :test] # ENV-переменные
 gem "valid_email2"
+gem "pagy", "~> 9.3"
 
 group :development, :test do
   gem "debug", platforms: %i[mri windows], require: "debug/prelude" # отладка
