@@ -1,5 +1,5 @@
 class Department < ApplicationRecord
-  has_many :employee
+  has_many :employees
 
   # TODO докинуть уникальность названия кафедры
   validates :name, presence: true, length: {minimum: 5}

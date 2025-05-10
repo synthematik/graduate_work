@@ -3,50 +3,30 @@
 <div class="space-y-6">
   <!-- Блок объявлений -->
   <div class="bg-white rounded-lg shadow-md p-5">
-    <h3 class="text-xl font-semibold text-teal-700 mb-4 flex items-center">
+    <h3 class="text-xl font-semibold text-teal-700 mb-3 flex items-center">
       <i class="fas fa-bullhorn mr-2 text-teal-500"></i> Объявления
     </h3>
 
     <div class="space-y-4 max-h-96 overflow-y-auto">
-      <% @articles_with_notification.each do |article| %>
+      <% @notifications.each do |notification| %>
         <div class="border-b border-gray-200 pb-3 last:border-0">
-          <a href="#" class="block hover:text-teal-600 transition duration-300 mb-1">
-            <%= article.body.truncate(80) %>
-          </a>
-          <p class="text-sm text-gray-400 flex items-center">
-            <i class="far fa-calendar-alt mr-1"></i>
-            <%= article.created_at.strftime("%d.%m.%Y") %>
+          <%= link_to notification.title, notification_path(notification.id),
+                      class: "block text-base font-semibold text-gray-800 hover:text-teal-600 transition duration-300 mb-1"
+          %>
+          <p class="text-sm text-gray-700 mb-1">
+            <%= notification.body.truncate(100) %>
+          </p>
+          <p class="text-sm text-gray-500 flex items-center mt-2">
+            <i class="far fa-calendar-alt mr-1 text-teal-500"></i>
+            <%= notification.formatted_updated_date %>
+            <i class="far fa-clock mr-1 text-teal-500 ml-3"></i>
+            <%= notification.formatted_updated_time %>
           </p>
         </div>
       <% end %>
     </div>
   </div>
 
-  <!-- Блок контактов -->
-  <div class="bg-white rounded-lg shadow-md p-5">
-    <h3 class="text-xl font-semibold text-teal-700 mb-4 flex items-center">
-      <i class="fas fa-map-marker-alt mr-2 text-teal-500"></i> Как нас найти
-    </h3>
-
-    <address class="not-italic text-gray-600 space-y-2">
-      <p class="font-medium">Мехмат ЮФУ</p>
-      <p>344090 Ростов-на-Дону ул. Мильчакова 8a</p>
-      <p class="mb-3">
-        <a href="https://yandex.ru/maps/39/rostov-na-donu/?l=sat%2Cskl&ll=39.631721%2C47.216196&mode=usermaps&rl=39.633895%2C47.215584~-0.000503%2C-0.000202~-0.000647%2C0.001475~-0.000602%2C-0.000220~-0.000997%2C-0.000679~-0.001123%2C0.000777~-0.000521%2C-0.000343~-0.000647%2C0.000435&um=S9H0x8gqrvBj06TTnl9BRZ2kv0deEYAc&z=16" class="text-teal-600 hover:text-teal-800 transition duration-300 flex items-center">
-          <i class="fas fa-map mr-1"></i> Найти на карте
-        </a>
-      </p>
-      <p class="flex items-center">
-        <i class="fas fa-phone-alt mr-2 text-teal-500"></i> +7 (863) 2975 111
-      </p>
-      <p class="flex items-center">
-        <i class="fas fa-fax mr-2 text-teal-500"></i> Факс: +7 (863) 2975 113
-      </p>
-      <p class="flex items-center">
-        <i class="fas fa-door-open mr-2 text-teal-500"></i> Деканат: кабинет 111
-      </p>
-    </address>
-  </div>
 
   <!-- Блок ближайших событий -->
   <div class="bg-white rounded-lg shadow-md p-5">
@@ -77,5 +57,31 @@
         </div>
       </li>
     </ul>
+  </div>
+
+  <!-- Блок контактов -->
+  <div class="bg-white rounded-lg shadow-md p-5">
+    <h3 class="text-xl font-semibold text-teal-700 mb-4 flex items-center">
+      <i class="fas fa-map-marker-alt mr-2 text-teal-500"></i> Как нас найти
+    </h3>
+
+    <address class="not-italic text-gray-600 space-y-2">
+      <p class="font-medium">Мехмат ЮФУ</p>
+      <p>344090 Ростов-на-Дону ул. Мильчакова 8a</p>
+      <p class="mb-3">
+        <a href="https://yandex.ru/maps/39/rostov-na-donu/?l=sat%2Cskl&ll=39.631721%2C47.216196&mode=usermaps&rl=39.633895%2C47.215584~-0.000503%2C-0.000202~-0.000647%2C0.001475~-0.000602%2C-0.000220~-0.000997%2C-0.000679~-0.001123%2C0.000777~-0.000521%2C-0.000343~-0.000647%2C0.000435&um=S9H0x8gqrvBj06TTnl9BRZ2kv0deEYAc&z=16" class="text-teal-600 hover:text-teal-800 transition duration-300 flex items-center">
+          <i class="fas fa-map mr-1"></i> Найти на карте
+        </a>
+      </p>
+      <p class="flex items-center">
+        <i class="fas fa-phone-alt mr-2 text-teal-500"></i> +7 (863) 2975 111
+      </p>
+      <p class="flex items-center">
+        <i class="fas fa-fax mr-2 text-teal-500"></i> Факс: +7 (863) 2975 113
+      </p>
+      <p class="flex items-center">
+        <i class="fas fa-door-open mr-2 text-teal-500"></i> Деканат: кабинет 111
+      </p>
+    </address>
   </div>
 </div>

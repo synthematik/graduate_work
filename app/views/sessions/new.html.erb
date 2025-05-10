@@ -14,7 +14,7 @@
 
     <div class="p-6">
       <%= form_with scope: :session, url: session_path, method: :post, class: "space-y-4", data: { turbo: false } do |form| %>
-        <% if flash[:error] %>
+        <% if flash[:error].present? %>
           <div class="bg-red-50 text-red-800 p-3 rounded-md mb-4">
             <h3 class="font-medium">Ошибка входа:</h3>
             <ul class="mt-1 ml-5 list-disc">

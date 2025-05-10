@@ -37,9 +37,9 @@
 
         <div class="md:hidden flex items-center space-x-2">
           <% if user_signed_in? %>
-            <i class="fas fa-user mr-1 text-teal-600 hover:text-teal-800 transition duration-300"></i><%= button_to "Выйти", session_path, method: :delete, params["no_navbar_flag"]=>true, class: "text-teal-600 hover:text-teal-800 transition duration-300"%>
+            <i class="fas fa-user mr-1 text-teal-600 hover:text-teal-800 transition duration-300"></i><%= button_to "Выйти", session_path, method: :delete, class: "text-teal-600 hover:text-teal-800 transition duration-300"%>
           <% else %>
-            <i class="fas fa-user mr-1 text-teal-600 hover:text-teal-800 transition duration-300"></i><%= link_to "Вход", new_session_path, params["no_navbar_flag"]=>true, class: "text-teal-600 hover:text-teal-800 transition duration-300"%>
+            <i class="fas fa-user mr-1 text-teal-600 hover:text-teal-800 transition duration-300"></i><%= link_to "Вход", new_session_path, class: "text-teal-600 hover:text-teal-800 transition duration-300"%>
           <% end %>
         </div>
       </div>

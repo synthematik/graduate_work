@@ -5,11 +5,10 @@ class ArticlesController < ApplicationController
   end
 
   def index
-    @articles = ::Article.all.sort_by(&:updated_at)
+    @articles = ::Article.order(updated_at: :desc)
   end
 
   def show
-    @articles_with_notification = ::Article.where(is_notification: true).sort_by(&:updated_at).last(5)
   end
 
   def create

@@ -3,7 +3,8 @@ class User < ApplicationRecord
 
   has_secure_password(validations: false)
 
-  has_many :article, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :articles, dependent: :destroy
   has_one :employee
 
   enum role: {basic: 0, moderator: 1, admin: 2}, _suffix: :role

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :articles
+  resources :notifications
   resources :users
   resource :session, only: [:new, :create, :destroy]
 
