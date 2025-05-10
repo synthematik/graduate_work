@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   before_action :require_no_authentication, only: [:new, :create]
   before_action :require_authentication, only: [:destroy]
+  layout "clean"
 
   def new
   end
@@ -13,7 +14,8 @@ class SessionsController < ApplicationController
       remember_user(user) if session_params[:remember_me] == "1"
       redirect_to root_path
     else
-      render :new
+      flash.now[:error] = "Неверный email или пароль"
+      render :new, status: :unprocessable_entity
     end
   end
 

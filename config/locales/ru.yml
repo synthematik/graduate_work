@@ -1,0 +1,26 @@
+ru:
+  activerecord:
+    models:
+      user: "Пользователь"
+    attributes:
+      user:
+        email: "Email"
+        password: "Пароль"
+        password_confirmation: "Подтверждение пароля"
+        old_password: "Старый пароль"
+    errors:
+      format: "%{message}"
+      models:
+        user:
+          attributes:
+            email:
+              blank: "не может быть пустым"
+              invalid: "имеет неверный формат"
+              taken: "уже занят"
+            password:
+              blank: "не может быть пустым"
+              too_short: "слишком короткий (минимум %{count} символов)"
+              confirmation: "не совпадает с подтверждением"
+
+  sessions:
+    invalid_credentials: "Неверный email или пароль"

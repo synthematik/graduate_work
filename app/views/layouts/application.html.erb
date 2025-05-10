@@ -170,18 +170,14 @@
 
 
   <body class="flex flex-col min-h-screen bg-gray-50">
-    <% unless (params["controller"] == "errors") ||
-            (controller_name == 'users' && action_name == 'new') ||
-            (controller_name == 'sessions' && action_name == 'new') %>
-      <%= render "layouts/header" %>
+    <%= render "layouts/header" %>
 
-      <%= render "layouts/mobile_menu" %>
+    <%= render "layouts/mobile_menu" %>
 
-      <div class="flex-grow flex">
-        <div class="desktop-sidebar w-64 hidden lg:block">
-          <%= render "layouts/navbar" %>
-        </div>
-    <% end %>
+    <div class="flex-grow flex">
+      <div class="desktop-sidebar w-64 hidden lg:block">
+        <%= render "layouts/navbar" %>
+      </div>
 
       <div class="main-content flex-grow p-4 lg:p-6 bg-white md:bg-gray-50">
         <div class="mx-auto w-full max-w-[1800px] px-4">
@@ -190,10 +186,6 @@
       </div>
     </div>
 
-    <% unless (params["controller"] == "errors") ||
-              (controller_name == 'users' && action_name == 'new') ||
-              (controller_name == 'sessions' && action_name == 'new') %>
-      <%= render "layouts/footer" %>
-    <% end %>
+    <%= render "layouts/footer" %>
   </body>
 </html>

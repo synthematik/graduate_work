@@ -1,6 +1,6 @@
 class ErrorsController < ApplicationController
+  layout "clean"
   def not_found
-    # TODO поправить верстку страницы
     render "errors/not_found"
   end
 end

@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :require_no_authentication, only: [:new, :create]
   before_action :require_authentication, only: [:edit, :update]
   before_action :set_user!, only: [:edit, :update]
+  layout "clean", only: [:new, :create]
 
   def edit
   end
