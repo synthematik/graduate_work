@@ -45,6 +45,6 @@ class NotificationsController < ApplicationController
   end
 
   def notification_params
-    params.require(:notification).permit(:title, :body, :starts_at, :ends_at, :published)
+    params.require(:notification).permit(:title, :body, :published)
   end
 end

@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :articles, dependent: :destroy
   has_one :employee
 
-  enum role: {basic: 0, moderator: 1, admin: 2}, _suffix: :role
+  enum :role, {basic: 0, moderator: 1, admin: 2}, suffix: :role
 
   validates :email, presence: true, uniqueness: true, "valid_email_2/email": true
   validates :password, confirmation: true, allow_blank: true, length: {minimum: 6, maximum: 30}

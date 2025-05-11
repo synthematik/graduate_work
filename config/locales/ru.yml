@@ -1,6 +1,54 @@
 ru:
+  date:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%e %b"
+      long: "%-d %B %Y"
+    abbr_month_names:
+      - ~
+      - янв
+      - фев
+      - мар
+      - апр
+      - май
+      - июн
+      - июл
+      - авг
+      - сен
+      - окт
+      - ноя
+      - дек
+    month_names:
+      - ~
+      - Января
+      - Февраля
+      - Марта
+      - Апреля
+      - Мая
+      - Июня
+      - Июля
+      - Августа
+      - Сентября
+      - Октября
+      - Ноября
+      - Декабря
   activerecord:
     models:
+      article:
+        model_name:
+          human_name: "Новость"
+          collection: "Новости"
+
+      notification:
+        model_name:
+          human_name: "Объявление"
+          collection: "Объявления"
+
+      event:
+        model_name:
+          human_name: "Событие"
+          collection: "События"
+
       user: "Пользователь"
     attributes:
       user:
@@ -21,6 +69,5 @@ ru:
               blank: "не может быть пустым"
               too_short: "слишком короткий (минимум %{count} символов)"
               confirmation: "не совпадает с подтверждением"
-
   sessions:
     invalid_credentials: "Неверный email или пароль"

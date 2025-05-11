@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :articles
   resources :notifications
+  resources :events
   resources :users
   resource :session, only: [:new, :create, :destroy]
 

@@ -15,6 +15,35 @@ end
 
 puts "Создан пользователь: #{user.login} и #{Article.count} новостей."
 
+Event.create!(
+  title: "Летняя школа",
+  description: "Интенсив по математике для старшеклассников.",
+  starts_at: DateTime.new(2025, 6, 10, 10, 0),
+  ends_at: DateTime.new(2025, 6, 15, 16, 0),
+  location: "Корпус B, аудитория 101",
+  published: true,
+  user: user
+)
+
+# Событие только с началом
+Event.create!(
+  title: "Собрание преподавателей",
+  starts_at: DateTime.new(2025, 6, 5, 14, 30),
+  location: "Аудитория 314",
+  published: true,
+  user: user
+)
+
+# Событие без описания
+Event.create!(
+  title: "Заседание Ученого совета",
+  starts_at: DateTime.new(2025, 6, 20, 12, 0),
+  ends_at: DateTime.new(2025, 6, 20, 14, 0),
+  location: "Большой конференц-зал",
+  published: true,
+  user: user
+)
+
 Schedule.create!([
   {
     title: "Расписание 1 курс зимний семестр 2024-2025",
