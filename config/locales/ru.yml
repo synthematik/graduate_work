@@ -1,4 +1,19 @@
 ru:
+  schedules:
+    education_forms:
+      full_time: "Очная"
+      part_time: "Заочная"
+      mixed: "Очно-заочная"
+    semester_types:
+      winter: "Зимний семестр"
+      summer: "Летний семестр"
+      spring: "Весенний семестр"
+      autumn: "Осенний семестр"
+    schedule_types:
+      regular_schedule: "Регулярное"
+      exam_schedule: "Экзамены"
+      session_schedule: "Сессия"
+      academic_plan: "Учебный план"
   date:
     formats:
       default: "%d.%m.%Y"

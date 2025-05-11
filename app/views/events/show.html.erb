@@ -1,4 +1,5 @@
 <% provide :title, @event.title %>
 <%= render 'shared/show_content',
            resource: @event,
+           resource_name: 'event',
            index_path: root_path %>

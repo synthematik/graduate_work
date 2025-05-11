@@ -1,0 +1,243 @@
+<!-- app/views/schedules/index.html.erb -->
+<div class="py-6">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-800 mb-2 -mt-6">Расписание занятий</h1>
+    <p class="text-gray-600">Выберите параметры для отображения расписания</p>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Левая колонка - Фильтры и расписания -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Фильтры (Dropdown) -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <!-- Dropdown заголовок -->
+        <button id="filtersDropdownToggle" class="w-full flex justify-between items-center p-5 focus:outline-none">
+          <h3 class="text-xl font-semibold text-teal-700 flex items-center">
+            <i class="fas fa-filter mr-2 text-teal-500"></i> Фильтры
+          </h3>
+          <i id="filtersDropdownIcon" class="fas fa-chevron-down text-teal-600 transition-transform duration-300"></i>
+        </button>
+
+        <!-- Dropdown контент -->
+        <div id="filtersDropdownContent" class="px-5 pb-5 transition-all duration-300 ease-in-out overflow-hidden" style="max-height: 0; opacity: 0;">
+          <%= form_with url: schedules_path,
+                        method: :get,
+                        data: { turbo_frame: "schedules_list", controller: "filters" },
+                        class: "space-y-4" do |f|
+          %>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Учебный год -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Учебный год</label>
+                <div class="relative">
+                  <%= f.select :academic_year,
+                               (2020..Time.current.year).map { |y| ["#{y}-#{y+1}", "#{y}-#{y+1}"] },
+                               { include_blank: "Все годы", selected: params[:academic_year] },
+                               class: "filter-select w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-teal-500 focus:ring-teal-500" %>
+                </div>
+              </div>
+
+              <!-- Курс -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Курс</label>
+                <div class="relative">
+                  <%= f.select :course_number,
+                               (1..6).map { |n| [n, n] },
+                               { include_blank: "Все курсы", selected: params[:course_number] },
+                               class: "filter-select w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-teal-500 focus:ring-teal-500" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Форма обучения -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Форма обучения</label>
+                <div class="relative">
+                  <%= f.select :education_form,
+                               Schedule.education_forms.map { |k, v| [t("schedules.education_forms.#{k}"), v] },
+                               { include_blank: "Все формы", selected: params[:education_form] },
+                               class: "filter-select w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-teal-500 focus:ring-teal-500" %>
+                </div>
+              </div>
+
+              <!-- Семестр -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Семестр</label>
+                <div class="relative">
+                  <%= f.select :semester_type,
+                               Schedule.semester_types.map { |k, v| [t("schedules.semester_types.#{k}"), v] },
+                               { include_blank: "Все семестры", selected: params[:semester_type] },
+                               class: "filter-select w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-teal-500 focus:ring-teal-500" %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Тип расписания - плитки с иконками -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Тип расписания</label>
+              <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                <% Schedule.schedule_types.each do |type_key, type_value| %>
+                  <label class="schedule-type-option cursor-pointer">
+                    <%= f.radio_button :schedule_type, type_value, class: "sr-only filter-radio", checked: params[:schedule_type] == type_value %>
+                    <div class="flex flex-col items-center p-3 rounded-lg border border-gray-200 transition-all duration-200 hover:bg-teal-50 schedule-type-card">
+                      <i class="<%= schedule_type_icon(type_key) %> text-2xl mb-2 text-teal-600 icon-selected hidden"></i>
+                      <span class="text-sm text-center"><%= t("schedules.schedule_types.#{type_key}") %></span>
+                    </div>
+                  </label>
+                <% end %>
+
+                <label class="schedule-type-option cursor-pointer">
+                  <%= f.radio_button :schedule_type, "", class: "sr-only filter-radio", checked: params[:schedule_type].blank? %>
+                  <div class="flex flex-col items-center p-3 rounded-lg border border-gray-200 transition-all duration-200 hover:bg-teal-50 schedule-type-card">
+                    <i class="fas fa-th-large text-2xl mb-2 text-teal-600 icon-selected hidden"></i>
+                    <span class="text-sm text-center">Все</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex justify-between pt-2">
+              <%= f.submit "Применить фильтры", class: "px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition duration-300" %>
+              <%= link_to "Сбросить", schedules_path, class: "px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-300" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Список расписаний -->
+      <div id="schedules_list" class="space-y-4">
+        <% if @schedules.any? %>
+          <% @schedules.each do |schedule| %>
+            <div class="bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition duration-300">
+              <div class="flex flex-col md:flex-row justify-between">
+                <!-- Левая часть: Заголовок + мета -->
+                <div class="flex-1">
+                  <!-- Название -->
+                  <h3 class="text-xl font-semibold text-gray-800 mb-3">
+                    <%= schedule.title %>
+                    <!-- Тип расписания -->
+                    <span class="inline-block schedule-type-badge py-1 px-3 rounded-full text-sm font-semibold ml-4 <%= schedule_type_class(schedule.schedule_type) %>">
+                      <%= t("schedules.schedule_types.#{schedule.schedule_type}") %>
+                    </span>
+                  </h3>
+
+                  <!-- Метаданные -->
+                  <div class="grid grid-cols-2 sm:grid-cols-2 gap-3 mb-2">
+                    <div class="flex items-center text-sm text-gray-600">
+                      <i class="fas fa-calendar-alt text-teal-500 mr-2"></i>
+                      <span><%= "#{schedule.start_year}-#{schedule.end_year}" %></span>
+                    </div>
+
+                    <div class="flex items-center text-sm text-gray-600">
+                      <i class="fas fa-graduation-cap text-teal-500 mr-2"></i>
+                      <span><%= schedule.course_number %> курс</span>
+                    </div>
+
+                    <div class="flex items-center text-sm text-gray-600">
+                      <i class="fas fa-user-graduate text-teal-500 mr-2"></i>
+                      <span><%= t("schedules.education_forms.#{schedule.education_form}") %></span>
+                    </div>
+
+                    <div class="flex items-center text-sm text-gray-600">
+                      <i class="fas fa-sun text-teal-500 mr-2"></i>
+                      <span><%= t("schedules.semester_types.#{schedule.semester_type}") %></span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Правая часть: Кнопки -->
+                <div class="flex flex-col items-end mt-4 md:mt-0 md:ml-6 space-y-2 min-w-[140px]">
+                  <a href="<%= schedule.file_url %>" target="_blank"
+                     class="w-full text-center px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700 transition duration-300">
+                    <i class="fas fa-download mr-1"></i> Скачать
+                  </a>
+                  <a href="<%= schedule.file_url %>" target="_blank"
+                     class="w-full text-center px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition duration-300">
+                    <i class="fas fa-eye mr-1"></i> Просмотр
+                  </a>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="flex justify-center mt-6">
+            <%= render partial: "shared/pagination", locals: { pagy: @pagy } %>
+          </div>
+        <% else %>
+          <div class="bg-white rounded-lg shadow-md p-8 text-center">
+            <div class="text-gray-400 mb-4">
+              <i class="fas fa-calendar-times text-5xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-700 mb-2">Расписаний не найдено</h3>
+            <p class="text-gray-600">Попробуйте изменить параметры поиска или сбросить фильтры</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render 'shared/schedule_information_helper' %>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Dropdown функционал
+        const dropdownToggle = document.getElementById('filtersDropdownToggle');
+        const dropdownContent = document.getElementById('filtersDropdownContent');
+        const dropdownIcon = document.getElementById('filtersDropdownIcon');
+
+        // По умолчанию закрыто
+        let isOpen = false;
+
+        // Обработчик клика по toggle
+        dropdownToggle.addEventListener('click', function() {
+            isOpen = !isOpen;
+
+            if (isOpen) {
+                // Открываем dropdown
+                dropdownContent.style.maxHeight = dropdownContent.scrollHeight + 'px';
+                dropdownContent.style.opacity = '1';
+                dropdownIcon.classList.remove('fa-chevron-down');
+                dropdownIcon.classList.add('fa-chevron-up');
+            } else {
+                // Закрываем dropdown
+                dropdownContent.style.maxHeight = '0';
+                dropdownContent.style.opacity = '0';
+                dropdownIcon.classList.remove('fa-chevron-up');
+                dropdownIcon.classList.add('fa-chevron-down');
+            }
+        });
+
+        // Функция для обновления стилей выбранного типа расписания
+        function updateScheduleTypeStyle() {
+            document.querySelectorAll('.schedule-type-option').forEach(function (option) {
+                const radio = option.querySelector('input[type="radio"]');
+                const card = option.querySelector('.schedule-type-card');
+                const icon = option.querySelector('.icon-selected');
+
+                if (radio.checked) {
+                    card.classList.add('border-teal-500', 'bg-teal-50');
+                    if (icon) icon.classList.remove('hidden');
+                } else {
+                    card.classList.remove('border-teal-500', 'bg-teal-50');
+                    if (icon) icon.classList.add('hidden');
+                }
+            });
+        }
+
+        // Обновить стили при загрузке страницы
+        updateScheduleTypeStyle();
+
+        // Обновить стили при изменении выбора
+        document.querySelectorAll('.filter-radio').forEach(function(radio) {
+            radio.addEventListener('change', updateScheduleTypeStyle);
+        });
+
+        // Автоматическая отправка формы при изменении селектов
+        document.querySelectorAll('.filter-select').forEach(function(select) {
+            select.addEventListener('change', function() {
+                this.closest('form').requestSubmit();
+            });
+        });
+    });
+</script>

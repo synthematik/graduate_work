@@ -31,7 +31,7 @@
       <div class="w-full md:hidden flex justify-between items-center">
         <ul class="flex space-x-4 text-gray-800">
           <li><a href="/" class="nav-item font-medium hover:text-teal-500 transition duration-300">Главная</a></li>
-          <li><a href="/about" class="nav-item font-medium hover:text-teal-500 transition duration-300">О нас</a></li>
+          <%= link_to "Расписание", schedules_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
           <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Контакты</a></li>
         </ul>
 
@@ -47,7 +47,7 @@
       <div class="hidden md:flex w-full justify-between items-center">
         <ul class="flex space-x-6 text-gray-800 mx-auto">
           <li><a href="/" class="nav-item font-medium hover:text-teal-500 transition duration-300">Главная</a></li>
-          <li><a href="/about" class="nav-item font-medium hover:text-teal-500 transition duration-300">О нас</a></li>
+          <%= link_to "Расписание", schedules_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
           <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Контакты</a></li>
         </ul>
 

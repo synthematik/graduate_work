@@ -1,4 +1,5 @@
 <% provide :title, @article.title %>
 <%= render 'shared/show_content',
            resource: @article,
+           resource_name: 'article',
            index_path: root_path %>
