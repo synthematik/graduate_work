@@ -53,6 +53,8 @@ ru:
         model_name:
           human_name: "Новость"
           collection: "Новости"
+        one: "Новость"
+
 
       notification:
         model_name:

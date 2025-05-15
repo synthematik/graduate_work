@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :schedules
   resources :events
   resources :users
+  resources :photos, only: [:destroy]
   resource :session, only: [:new, :create, :destroy]
 
   match "/404", to: "errors#not_found", via: :all
