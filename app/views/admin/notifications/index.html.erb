@@ -1,0 +1,60 @@
+<% content_for :page_title do %>
+  Объявления
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Объявления", path: admin_notifications_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление объявлениями", button_path: new_admin_notification_path %>
+
+<%= render "admin/shared/search_form", url: admin_notifications_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">ID</th>
+      <th>Заголовок</th>
+      <th>Описание</th>
+      <th>Статус</th>
+      <th>Автор</th>
+      <th>Дата создания</th>
+      <th class="w-40">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @notifications.each do |notification| %>
+      <tr>
+        <td><%= notification.id %></td>
+        <td>
+          <div class="font-normal text-gray-900"><%= notification.title.truncate(50) %></div>
+        </td>
+        <td>
+          <div class="font-normal text-gray-900 line-clamp-1"><%= notification.body.truncate(50) %></div>
+        </td>
+        <td>
+          <span class="px-2 py-1 text-xs font-semibold rounded-full
+                      <%= notification.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+            <%= notification.published? ? 'Опубликовано' : 'Черновик' %>
+          </span>
+        </td>
+        <td class="text-sm">
+          <%= notification.user.login || notification.user.email %>
+        </td>
+        <td class="text-sm">
+          <%= l notification.created_at, format: :short %>
+        </td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_notification_path(notification),
+                     edit_path: edit_admin_notification_path(notification),
+                     delete_path: admin_notification_path(notification) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

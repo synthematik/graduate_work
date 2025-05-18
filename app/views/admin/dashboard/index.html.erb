@@ -1,0 +1,168 @@
+<!-- app/views/admin/dashboard/index.html.erb -->
+<% content_for :page_title do %>
+  Панель управления
+<% end %>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <!-- Статистика пользователей -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-teal-100 text-teal-600">
+        <i class="fas fa-users text-2xl"></i>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-500">Пользователи</p>
+        <p class="text-2xl font-semibold text-gray-700"><%= @users_count %></p>
+      </div>
+    </div>
+    <%= link_to "Подробнее", admin_users_path, class: "mt-4 inline-block text-sm text-teal-600 hover:text-teal-700" %>
+  </div>
+
+  <!-- Статистика статей -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+        <i class="fas fa-newspaper text-2xl"></i>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-500">Новости</p>
+        <p class="text-2xl font-semibold text-gray-700"><%= @articles_count %></p>
+      </div>
+    </div>
+    <%= link_to "Подробнее", admin_articles_path, class: "mt-4 inline-block text-sm text-teal-600 hover:text-teal-700" %>
+  </div>
+
+  <!-- Статистика событий -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+        <i class="fas fa-calendar-alt text-2xl"></i>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-500">События</p>
+        <p class="text-2xl font-semibold text-gray-700"><%= @events_count %></p>
+      </div>
+    </div>
+    <%= link_to "Подробнее", admin_events_path, class: "mt-4 inline-block text-sm text-teal-600 hover:text-teal-700" %>
+  </div>
+
+  <!-- Статистика уведомлений -->
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+        <i class="fas fa-bell text-2xl"></i>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-500">Объявления</p>
+        <p class="text-2xl font-semibold text-gray-700"><%= @notifications_count %></p>
+      </div>
+    </div>
+    <%= link_to "Подробнее", admin_notifications_path, class: "mt-4 inline-block text-sm text-teal-600 hover:text-teal-700" %>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <!-- Карточка последних пользователей -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-800 flex items-center">
+        <i class="fas fa-users text-teal-500 mr-2"></i>
+        Последние пользователи
+      </h2>
+      <%= link_to admin_users_path, class: "text-sm text-teal-600 hover:text-teal-700 flex items-center" do %>
+        Все пользователи <i class="fas fa-arrow-right ml-1 text-xs"></i>
+      <% end %>
+    </div>
+    <div class="p-6">
+      <% if @recent_users.any? %>
+        <div class="space-y-4">
+          <% @recent_users.each do |user| %>
+            <div class="flex items-center justify-between group">
+              <div class="flex items-center min-w-0">
+                <div class="flex-shrink-0 h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
+                  <i class="fas fa-user text-teal-600"></i>
+                </div>
+                <div class="ml-3 min-w-0">
+                  <p class="font-medium text-gray-900 truncate"><%= user.email %></p>
+                  <div class="flex items-center mt-1">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium
+                                <%= role_badge_color(user.role) %>">
+                      <%= user.role.humanize %>
+                    </span>
+                    <span class="ml-2 text-xs text-gray-500">
+                      <i class="far fa-clock mr-1"></i>
+                       Создан: <%= l user.created_at, format: :short %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <%= link_to admin_user_path(user),
+                          class: "opacity-0 group-hover:opacity-100 text-teal-600 hover:text-teal-700 transition-opacity" do %>
+                <i class="fas fa-external-link-alt"></i>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-6">
+          <i class="far fa-user text-gray-300 text-3xl mb-2"></i>
+          <p class="text-gray-500">Нет пользователей для отображения</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Карточка последних статей -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-gray-800 flex items-center">
+        <i class="far fa-newspaper text-teal-500 mr-2"></i>
+        Последние статьи
+      </h2>
+      <%= link_to admin_articles_path, class: "text-sm text-teal-600 hover:text-teal-700 flex items-center" do %>
+        Все статьи <i class="fas fa-arrow-right ml-1 text-xs"></i>
+      <% end %>
+    </div>
+    <div class="p-6">
+      <% if @recent_articles.any? %>
+        <div class="space-y-4">
+          <% @recent_articles.each do |article| %>
+            <div class="flex items-center justify-between group">
+              <div class="flex-1 min-w-0">
+                <h4 class="font-medium text-gray-900 truncate"><%= article.title %></h4>
+                <div class="flex items-center mt-1 text-gray-500">
+                  <span class="inline-flex items-center">
+                    <i class="fas fa-user-circle mr-1.5 text-gray-400"></i>
+                    <%= article.user.login || article.user.email %>
+                  </span>
+                  <span class="mx-2">•</span>
+                  <span class="inline-flex items-center">
+                    <i class="far fa-clock mr-1.5 text-gray-400"></i>
+                    <%= l article.created_at, format: :short %>
+                  </span>
+                </div>
+              </div>
+              <div class="flex items-center ml-3">
+                <%= link_to admin_article_path(article),
+                            class: "text-gray-400 hover:text-teal-600 mr-3 transition-colors",
+                            title: "Просмотреть" do %>
+                  <i class="fas fa-eye"></i>
+                <% end %>
+                <%= link_to edit_admin_article_path(article),
+                            class: "text-gray-400 hover:text-blue-600 transition-colors",
+                            title: "Редактировать" do %>
+                  <i class="fas fa-edit"></i>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="text-center py-6">
+          <i class="far fa-newspaper text-gray-300 text-3xl mb-2"></i>
+          <p class="text-gray-500">Нет статей для отображения</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

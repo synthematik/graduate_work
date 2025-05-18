@@ -1,0 +1,52 @@
+<!-- app/views/admin/shared/_sidebar.html.erb -->
+<nav class="space-y-1">
+  <%= link_to admin_root_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{current_page?(admin_root_path) ? 'active' : ''}" do %>
+    <i class="fas fa-tachometer-alt mr-3 text-lg"></i>
+    <span>Панель управления</span>
+  <% end %>
+
+  <%= link_to admin_users_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'users' ? 'active' : ''}" do %>
+    <i class="fas fa-users mr-3 text-lg"></i>
+    <span>Пользователи</span>
+  <% end %>
+
+  <%= link_to admin_articles_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'articles' ? 'active' : ''}" do %>
+    <i class="fas fa-newspaper mr-3 text-lg"></i>
+    <span>Новости</span>
+  <% end %>
+
+  <%= link_to admin_notifications_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'notifications' ? 'active' : ''}" do %>
+    <i class="fas fa-bell mr-3 text-lg"></i>
+    <span>Объявления</span>
+  <% end %>
+
+  <%= link_to admin_events_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'events' ? 'active' : ''}" do %>
+    <i class="fas fa-calendar-alt mr-3 text-lg"></i>
+    <span>События</span>
+  <% end %>
+
+  <%= link_to admin_schedules_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'schedules' ? 'active' : ''}" do %>
+    <i class="fas fa-clock mr-3 text-lg"></i>
+    <span>Расписание</span>
+  <% end %>
+
+  <%= link_to admin_departments_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'departments' ? 'active' : ''}" do %>
+    <i class="fas fa-building mr-3 text-lg"></i>
+    <span>Кафедры</span>
+  <% end %>
+
+  <%= link_to admin_employees_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md #{controller_name == 'employees' ? 'active' : ''}" do %>
+    <i class="fas fa-user-tie mr-3 text-lg"></i>
+    <span>Сотрудники</span>
+  <% end %>
+</nav>
+
+<div class="mt-8 pt-4 border-t border-gray-200">
+  <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+    Действия
+  </div>
+  <%= link_to root_path, class: "admin-nav-item flex items-center px-4 py-3 rounded-md", target: "_blank" do %>
+    <i class="fas fa-external-link-alt mr-3 text-lg"></i>
+    <span>Перейти на сайт</span>
+  <% end %>
+</div>

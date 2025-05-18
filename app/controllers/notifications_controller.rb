@@ -6,7 +6,7 @@ class NotificationsController < ApplicationController
   end
 
   def index
-    @notification = ::Notification.order(updated_at: :desc)
+    @notification = ::Notification.published.order(updated_at: :desc)
   end
 
   def new

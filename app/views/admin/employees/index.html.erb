@@ -1,0 +1,53 @@
+<% content_for :page_title do %>
+  Сотрудники
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Сотрудники", path: admin_employees_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление сотрудниками", button_path: new_admin_employee_path %>
+
+<%= render "admin/shared/search_form", url: admin_employees_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">#</th>
+      <th>ФИО</th>
+      <th>Степень</th>
+      <th>Кафедра</th>
+      <th>Email</th>
+      <th>Пользователь</th>
+      <th class="w-32">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @employees.each do |employee| %>
+      <tr>
+        <td><%= employee.id %></td>
+        <td><%= "#{employee.last_name} #{employee.first_name} #{employee.middle_name}".strip %></td>
+        <td><%= employee.degree %></td>
+        <td><%= employee.department&.name || "Не указана" %></td>
+        <td><%= employee.user.email %></td>
+        <td>
+          <% if employee.user.present? %>
+            <%= link_to employee.user.email, admin_user_path(employee.user), class: "text-teal-600 hover:text-teal-700" %>
+          <% else %>
+            <span class="text-gray-400">Не связан</span>
+          <% end %>
+        </td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_employee_path(employee),
+                     edit_path: edit_admin_employee_path(employee),
+                     delete_path: admin_employee_path(employee) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

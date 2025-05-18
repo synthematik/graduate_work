@@ -1,0 +1,69 @@
+<% content_for :page_title do %>
+  Расписания
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Расписания", path: admin_schedules_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление расписаниями", button_path: new_admin_schedule_path %>
+
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+  <%= render "admin/shared/search_form", url: admin_schedules_path %>
+
+  <div class="flex flex-wrap gap-2">
+    <%= link_to "Фильтры", "#",
+                class: "inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50",
+                data: { controller: "dropdown", action: "click->dropdown#toggle" } %>
+  </div>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">ID</th>
+      <th>Название</th>
+      <th>Курс</th>
+      <th>Учебный год</th>
+      <th>Тип</th>
+      <th>Автор</th>
+      <th class="w-40">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @schedules.each do |schedule| %>
+      <tr>
+        <td><%= schedule.id %></td>
+        <td>
+          <div class="font-medium text-gray-900">
+            <%= link_to schedule.title, admin_schedule_path(schedule), class: "text-teal-600 hover:text-teal-700" %>
+          </div>
+          <div class="text-xs text-gray-500 mt-1">
+            <%= "#{schedule.education_form.humanize} / #{schedule.semester_type.humanize}" %>
+          </div>
+        </td>
+        <td><%= schedule.course_number %></td>
+        <td><%= "#{schedule.start_year}-#{schedule.end_year}" %></td>
+        <td>
+            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
+              <%= schedule.schedule_type.humanize %>
+            </span>
+        </td>
+        <td class="text-sm text-gray-500">
+          <%= schedule.user.email %>
+        </td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_schedule_path(schedule),
+                     edit_path: edit_admin_schedule_path(schedule),
+                     delete_path: admin_schedule_path(schedule),
+                     delete_confirm: "Вы уверены, что хотите удалить расписание '#{schedule.title}'?" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

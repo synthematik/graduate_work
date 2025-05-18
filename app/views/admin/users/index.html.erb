@@ -1,0 +1,47 @@
+<!--app/views/admin/users/index.html.erb-->
+
+<% content_for :page_title do %>
+  Пользователи
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Пользователи", path: admin_users_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление пользователями", button_path: new_admin_user_path %>
+
+<%= render "admin/shared/search_form", url: admin_users_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">#</th>
+      <th>Email</th>
+      <th>Логин</th>
+      <th>Роль</th>
+      <th>Дата регистрации</th>
+      <th class="w-32">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email %></td>
+        <td><%= user.login %></td>
+        <td><%= user.role %></td>
+        <td><%= l user.created_at, format: :short %></td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_user_path(user),
+                     edit_path: edit_admin_user_path(user),
+                     delete_path: admin_user_path(user) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

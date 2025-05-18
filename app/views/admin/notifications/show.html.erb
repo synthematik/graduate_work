@@ -1,0 +1,132 @@
+<% content_for :page_title do %>
+  Просмотр объявления
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Объявления", path: admin_notifications_path %>
+  <%= render "admin/shared/breadcrumb_item", name: @notification.title.truncate(30), path: admin_notification_path(@notification) %>
+<% end %>
+
+<div class="flex flex-col space-y-6">
+  <!-- Заголовок и кнопки действий -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Просмотр объявления</h1>
+      <p class="text-gray-900 mt-1">ID: <%= @notification.id %></p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to edit_admin_notification_path(@notification),
+                  class: "inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors" do %>
+        <i class="fas fa-edit mr-2"></i> Редактировать
+      <% end %>
+      <%= button_to admin_notification_path(@notification),
+                    method: :delete,
+                    form: {
+                      data: {
+                        turbo_confirm: "Вы уверены, что хотите удалить объявление '#{@notification.title}'?"
+                      }
+                    },
+                    class: "inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors" do %>
+        <i class="fas fa-trash mr-2"></i> Удалить
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Основная информация -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800">
+        <i class="fas fa-bullhorn text-teal-500 mr-2"></i> Основные данные
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2"><%= @notification.title %></h3>
+          <div class="prose max-w-none text-gray-700">
+            <%= simple_format(@notification.body) %>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Автор</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-user-circle text-gray-400 mr-2"></i>
+              <%= @notification.user.login || @notification.user.email %>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Статус</dt>
+            <dd class="mt-1">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                          <%= @notification.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+                <%= @notification.published? ? 'Опубликовано' : 'Черновик' %>
+                <% if @notification.published? %>
+                  <i class="fas fa-check-circle ml-1"></i>
+                <% else %>
+                  <i class="fas fa-pencil-alt ml-1"></i>
+                <% end %>
+              </span>
+            </dd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Системная информация -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800">
+        <i class="fas fa-info-circle text-teal-500 mr-2"></i> Системная информация
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Дата создания</dt>
+          <dd class="mt-1 text-gray-900 flex items-center">
+            <i class="far fa-calendar-plus text-gray-400 mr-2"></i>
+            <%= l @notification.created_at, format: :long %>
+          </dd>
+        </div>
+
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Последнее обновление</dt>
+          <dd class="mt-1 text-gray-900 flex items-center">
+            <i class="fas fa-sync-alt text-gray-400 mr-2"></i>
+            <%= l @notification.updated_at, format: :long %>
+          </dd>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Дополнительные действия -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800">
+        <i class="fas fa-tasks text-teal-500 mr-2"></i> Действия
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="flex flex-wrap gap-3">
+        <%= link_to "Посмотреть на сайте", notification_path(@notification),
+                    target: "_blank",
+                    class: "inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+
+        <% if @notification.published? %>
+          <%= button_to "Снять с публикации", unpublish_admin_notification_path(@notification.id),
+                        method: :patch,
+                        class: "inline-flex items-center px-4 py-2 bg-white border border-yellow-300 rounded-md shadow-sm text-sm font-medium text-yellow-700 hover:bg-yellow-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500" %>
+        <% else %>
+          <%= button_to "Опубликовать", publish_admin_notification_path(@notification.id),
+                        method: :patch,
+                        class: "inline-flex items-center px-4 py-2 bg-white border border-green-300 rounded-md shadow-sm text-sm font-medium text-green-700 hover:bg-green-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

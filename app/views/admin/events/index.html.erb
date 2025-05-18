@@ -1,0 +1,80 @@
+<% content_for :page_title do %>
+  События
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "События", path: admin_events_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление событиями", button_path: new_admin_event_path %>
+
+<%= render "admin/shared/search_form", url: admin_events_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">ID</th>
+      <th>Заголовок</th>
+      <th>Дата начала</th>
+      <th>Местоположение</th>
+      <th>Статус</th>
+      <th>Автор</th>
+      <th>Дата создания</th>
+      <th class="w-40">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event.id %></td>
+        <td>
+          <div class="font-medium text-gray-900"><%= event.title %></div>
+          <div class="text-xs text-gray-500 line-clamp-1"><%= event.body %></div>
+        </td>
+        <td>
+          <div class="flex items-center">
+            <i class="far fa-clock text-teal-500 mr-1.5 text-xs"></i>
+            <div>
+              <div class="text-lg"><%= l event.starts_at, format: :short %></div>
+              <% if event.ends_at && !event.single_day? %>
+                <div>до <%= l event.ends_at, format: :short %></div>
+              <% end %>
+            </div>
+          </div>
+        </td>
+        <td>
+          <% if event.location.present? %>
+            <div class="flex items-center">
+              <i class="fas fa-map-marker-alt text-teal-500 mr-1.5 text-xs"></i>
+              <span class="text-sm"><%= truncate(event.location, length: 20) %></span>
+            </div>
+          <% else %>
+            <span class="text-gray-400 text-sm">Не указано</span>
+          <% end %>
+        </td>
+        <td>
+          <span class="px-2 py-1 text-xs font-semibold rounded-full
+                      <%= event.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+            <%= event.published? ? 'Опубликовано' : 'Черновик' %>
+          </span>
+        </td>
+        <td class="text-sm">
+          <%= event.user.login || event.user.email %>
+        </td>
+        <td class="text-sm">
+          <%= l event.created_at, format: :short %>
+        </td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_event_path(event),
+                     edit_path: edit_admin_event_path(event),
+                     delete_path: admin_event_path(event) %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

@@ -1,0 +1,143 @@
+<%= form_with model: [:admin, employee], local: true, class: "space-y-6" do |f| %>
+  <%= render "admin/shared/form_errors", resource: employee %>
+
+  <div class="grid grid-cols-1 gap-6">
+    <!-- Личные данные -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-user text-teal-500 mr-2"></i> Личные данные
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <%= f.label :last_name, "Фамилия*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :last_name, required: true,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :first_name, "Имя*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :first_name, required: true,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :middle_name, "Отчество", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :middle_name,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Профессиональная информация -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-briefcase text-teal-500 mr-2"></i> Профессиональная информация
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :degree, "Учёная степень", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :degree,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :rank, "Учёное звание", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :rank,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :position, "Должность", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :position,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :department_id, "Кафедра*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.collection_select :department_id, @departments, :id, :name,
+                                    { include_blank: "Выберите кафедру" },
+                                    required: true,
+                                    class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Дополнительная информация -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-info-circle text-teal-500 mr-2"></i> Дополнительная информация
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="space-y-6">
+          <div>
+            <%= f.label :description, "Описание деятельности", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_area :description, rows: 4,
+                            class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :links, "Ссылки (JSON)", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_area :links, rows: 2,
+                            class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 font-mono text-sm",
+                            placeholder: '{"google_scholar": "https://...", "orcid": "https://..."}' %>
+            <p class="mt-1 text-xs text-gray-500">
+              Введите JSON-объект с ссылками на профили (Google Scholar, ORCID и т.д.)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Привязка к пользователю -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-link text-teal-500 mr-2"></i> Привязка к учетной записи
+        </h3>
+      </div>
+      <div class="p-6">
+        <% if params[:user_id].present? && !employee.persisted? %>
+          <% user = User.find_by(id: params[:user_id]) %>
+          <div class="flex items-center">
+            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center">
+              <i class="fas fa-user text-teal-600"></i>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-gray-900"><%= user.email %></p>
+              <p class="text-sm text-gray-500">Будет привязан к профилю сотрудника</p>
+            </div>
+            <%= f.hidden_field :user_id, value: user.id %>
+          </div>
+        <% else %>
+          <div>
+            <%= f.label :user_id, "Пользователь*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.collection_select :user_id, @available_users, :id, :email,
+                                    { include_blank: "Создайте нужного пользователя" },
+                                    class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+            <p class="mt-1 text-xs text-gray-500">
+              Выберите пользователя для связи с профилем сотрудника (необязательно)
+            </p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="flex justify-end space-x-3 pt-4">
+      <%= link_to "Отмена", admin_employees_path,
+                  class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+      <%= f.submit employee.persisted? ? "Обновить данные" : "Создать сотрудника",
+                   class: "px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+    </div>
+  </div>
+<% end %>

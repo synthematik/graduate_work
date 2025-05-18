@@ -1,0 +1,58 @@
+<% content_for :page_title do %>
+  Кафедры
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Кафедры", path: admin_departments_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление кафедрами", button_path: new_admin_department_path %>
+
+<%= render "admin/shared/search_form", url: admin_departments_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th class="w-16">ID</th>
+      <th>Название</th>
+      <th>Описание</th>
+      <th>Сотрудников</th>
+      <th>Дата создания</th>
+      <th class="w-40">Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @departments.each do |department| %>
+      <tr>
+        <td><%= department.id %></td>
+        <td>
+          <div class="font-medium text-gray-900">
+            <%= link_to department.name, admin_department_path(department), class: "text-teal-600 hover:text-teal-700" %>
+          </div>
+        </td>
+        <td>
+          <div class="text-gray-600 line-clamp-1"><%= department.description.truncate(70) %></div>
+        </td>
+        <td>
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+            <%= department.employees.count %>
+          </span>
+        </td>
+        <td class="text-sm text-gray-500">
+          <%= l department.created_at, format: :short %>
+        </td>
+        <td>
+          <%= render "admin/shared/action_buttons",
+                     show_path: admin_department_path(department),
+                     edit_path: edit_admin_department_path(department),
+                     delete_path: admin_department_path(department),
+                     delete_confirm: "Вы уверены, что хотите удалить кафедру '#{department.name}'?" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

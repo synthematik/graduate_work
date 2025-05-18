@@ -1,0 +1,112 @@
+<%= form_with model: [:admin, schedule], local: true, class: "space-y-6" do |f| %>
+  <%= render "admin/shared/form_errors", resource: schedule %>
+
+  <div class="grid grid-cols-1 gap-6">
+    <!-- Основная информация -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="far fa-calendar-alt text-teal-500 mr-2"></i> Основные данные
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :title, "Название*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :title, required: true,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500",
+                             placeholder: "Например: Расписание 1 курс, весенний семестр" %>
+          </div>
+
+          <div>
+            <%= f.label :course_number, "Номер курса*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :course_number, min: 1, max: 6, required: true,
+                               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Учебный период -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-calendar-day text-teal-500 mr-2"></i> Учебный период
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <%= f.label :start_year, "Начальный год*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :start_year, min: 2010, max: 2100, required: true,
+                               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :end_year, "Конечный год*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.number_field :end_year, min: 2010, max: 2100, required: true,
+                               class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Типы расписания -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-tags text-teal-500 mr-2"></i> <%= t('schedules.schedule_types.title') %>
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <%= f.label :education_form, t('activerecord.attributes.schedule.education_form') + "*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.select :education_form, Schedule.education_forms.keys.map { |k| [t("enums.schedule.education_form.#{k}"), k] }, { include_blank: false },
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :semester_type, t('activerecord.attributes.schedule.semester_type') + "*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.select :semester_type, Schedule.semester_types.keys.map { |k| [t("enums.schedule.semester_type.#{k}"), k] }, { include_blank: false },
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+
+          <div>
+            <%= f.label :schedule_type, t('activerecord.attributes.schedule.schedule_type') + "*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.select :schedule_type, Schedule.schedule_types.keys.map { |k| [t("enums.schedule.schedule_type.#{k}"), k] }, { include_blank: false },
+                         class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Файл расписания -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-file-upload text-teal-500 mr-2"></i> Файл расписания
+        </h3>
+      </div>
+      <div class="p-6">
+        <div>
+          <%= f.label :file_url, "Ссылка на файл*", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :file_url, required: true,
+                           class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500",
+                           placeholder: "https://example.com/schedule.pdf" %>
+          <p class="mt-1 text-xs text-gray-500">
+            Укажите прямую ссылку на файл расписания (PDF, DOCX, XLSX)
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="flex justify-end space-x-3 pt-4">
+      <%= link_to "Отмена", admin_schedules_path,
+                  class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+      <%= f.submit schedule.persisted? ? "Обновить расписание" : "Создать расписание",
+                   class: "px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+    </div>
+  </div>
+<% end %>

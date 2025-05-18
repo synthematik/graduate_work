@@ -1,0 +1,24 @@
+<% content_for :page_title do %>
+  Редактирование события
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "События", path: admin_events_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "Редактирование события", path: edit_admin_event_path(@event) %>
+<% end %>
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">Редактирование события</h1>
+  <%= link_to admin_event_path(@event), class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300" do %>
+    <i class="fas fa-arrow-left mr-2"></i> Вернуться к просмотру
+  <% end %>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-700">Форма редактирования события</h3>
+  </div>
+  <div class="p-6">
+    <%= render "form", event: @event %>
+  </div>
+</div>

@@ -14,6 +14,11 @@ ru:
       exam_schedule: "Экзамены"
       session_schedule: "Сессия"
       academic_plan: "Учебный план"
+  time:
+    formats:
+      default: "%d.%m.%Y"
+      short: "%e %b"
+      long: "%-d %B %Y"
   date:
     formats:
       default: "%d.%m.%Y"
@@ -49,6 +54,10 @@ ru:
       - Декабря
   activerecord:
     models:
+      schedule:
+        education_form: "Форма обучения"
+        semester_type: "Тип семестра"
+        schedule_type: "Тип расписания"
       article:
         model_name:
           human_name: "Новость"
@@ -73,6 +82,10 @@ ru:
         password: "Пароль"
         password_confirmation: "Подтверждение пароля"
         old_password: "Старый пароль"
+      schedule:
+        education_form: "Форма обучения"
+        semester_type: "Тип семестра"
+        schedule_type: "Тип расписания"
     errors:
       format: "%{message}"
       models:
@@ -86,5 +99,85 @@ ru:
               blank: "не может быть пустым"
               too_short: "слишком короткий (минимум %{count} символов)"
               confirmation: "не совпадает с подтверждением"
+        employee:
+          attributes:
+            first_name:
+              blank: "не может быть пустым"
+              too_short: "слишком короткое (минимум %{count} символа)"
+            last_name:
+              blank: "не может быть пустым"
+              too_short: "слишком короткая (минимум %{count} символа)"
+            user_id:
+              taken: "уже привязан к другому сотруднику"
+          department:
+            attributes:
+              name:
+                blank: "не может быть пустым"
+                too_short: "слишком короткое (минимум %{count} символов)"
+              description:
+                blank: "не может быть пустым"
+                too_short: "слишком короткое (минимум %{count} символов)"
+          article:
+            attributes:
+              title:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+              body:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+          event:
+            attributes:
+              title:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+              body:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+              starts_at:
+                blank: "не может быть пустым"
+          notification:
+            attributes:
+              title:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+                taken: "уже используется"
+              body:
+                blank: "не может быть пустым"
+                too_short: "слишком короткий (минимум %{count} символов)"
+                taken: "уже используется"
   sessions:
     invalid_credentials: "Неверный email или пароль"
+
+  enums:
+    schedule:
+      education_form:
+        full_time: "Очная"
+        part_time: "Заочная"
+        mixed: "Смешанная"
+      semester_type:
+        winter: "Зимний"
+        summer: "Летний"
+        spring: "Весенний"
+        autumn: "Осенний"
+      schedule_type:
+        regular_schedule: "Регулярное"
+        exam_schedule: "Экзамены"
+        session_schedule: "Сессия"
+        academic_plan: "Учебный план"
+    user:
+      role:
+        basic: "Обычный"
+        moderator: "Модератор"
+        admin: "Администратор"
+
+    helpers:
+      label:
+        user:
+          role: "Роль в системе"
+        employee:
+          links: "Ссылки (JSON)"
+      submit:
+        create: "Создать %{model}"
+        update: "Обновить %{model}"
+      select:
+        prompt: "Выберите значение"

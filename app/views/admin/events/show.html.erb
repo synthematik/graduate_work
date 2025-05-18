@@ -1,0 +1,133 @@
+<% content_for :page_title do %>
+  Просмотр события
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "События", path: admin_events_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "Просмотр события", path: admin_event_path(@event) %>
+<% end %>
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">Просмотр события</h1>
+  <div class="flex space-x-2">
+    <%= link_to edit_admin_event_path(@event), class: "px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700" do %>
+      <i class="fas fa-edit mr-2"></i> Редактировать
+    <% end %>
+    <%= button_to admin_event_path(@event), method: :delete,
+                  form: { data: { turbo_confirm: "Вы уверены, что хотите удалить это событие?" } },
+                  class: "px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700" do %>
+      <i class="fas fa-trash mr-2"></i> Удалить
+    <% end %>
+  </div>
+</div>
+
+<div class="space-y-6">
+  <!-- Основная информация -->
+  <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-medium text-gray-700">Основная информация</h3>
+    </div>
+    <div class="p-6">
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">ID</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.id %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Автор</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.user.login || @event.user.email %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Заголовок</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.title %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Описание</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.body %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Даты и время -->
+  <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-medium text-gray-700">Дата и время</h3>
+    </div>
+    <div class="p-6">
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Дата начала</dt>
+          <dd class="mt-1 text-gray-900">
+            <div class="flex items-center">
+              <i class="far fa-clock text-teal-500 mr-2"></i>
+              <%= l @event.starts_at, format: :long %>
+            </div>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Дата окончания</dt>
+          <dd class="mt-1 text-gray-900">
+            <div class="flex items-center">
+              <i class="far fa-clock text-teal-500 mr-2"></i>
+              <%= @event.ends_at ? l(@event.ends_at, format: :long) : 'Не указана' %>
+            </div>
+          </dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Продолжительность</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.formatted_date_range %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Однодневное событие</dt>
+          <dd class="mt-1 text-gray-900"><%= @event.single_day? ? 'Да' : 'Нет' %></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- Местоположение -->
+  <% if @event.location.present? %>
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200">
+        <h3 class="text-lg font-medium text-gray-700">Местоположение</h3>
+      </div>
+      <div class="p-6">
+        <div class="flex items-start">
+          <i class="fas fa-map-marker-alt text-teal-500 mt-1 mr-3"></i>
+          <div>
+            <p class="text-gray-900"><%= @event.location %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Дополнительная информация -->
+  <div class="bg-white shadow rounded-lg overflow-hidden">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h3 class="text-lg font-medium text-gray-700">Системная информация</h3>
+    </div>
+    <div class="p-6">
+      <dl class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Дата создания</dt>
+          <dd class="mt-1 text-gray-900"><%= l @event.created_at, format: :long %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Последнее обновление</dt>
+          <dd class="mt-1 text-gray-900"><%= l @event.updated_at, format: :long %></dd>
+        </div>
+        <div>
+          <dt class="text-sm font-medium text-gray-500">Статус</dt>
+          <dd class="mt-1 text-gray-900">
+            <span class="px-2 py-1 text-xs font-semibold rounded-full
+                        <%= @event.published? ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' %>">
+              <%= @event.published? ? 'Опубликовано' : 'Черновик' %>
+            </span>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

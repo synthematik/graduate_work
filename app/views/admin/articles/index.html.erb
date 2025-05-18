@@ -1,0 +1,43 @@
+<% content_for :page_title do %>
+Новости
+<% end %>
+
+<% content_for :breadcrumbs do %>
+<%= render "admin/shared/breadcrumb_item", name: "Новости", path: admin_articles_path %>
+<% end %>
+
+<%= render "admin/shared/page_header", title: "Управление новостями", button_path: new_admin_article_path %>
+
+<%= render "admin/shared/search_form", url: admin_articles_path %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+    <table class="admin-table">
+        <thead>
+        <tr>
+            <th class="w-16">#</th>
+            <th>Заголовок</th>
+            <th>Текст</th>
+            <th>Дата создания</th>
+            <th class="w-32">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @articles.each do |article| %>
+        <tr>
+            <td><%= article.id %></td>
+            <td><%= article.title %></td>
+            <td><%= article.body.truncate(300) %></td>
+            <td><%= l article.created_at, format: :short %></td>
+            <td>
+                <%= render "admin/shared/action_buttons",
+                show_path: admin_article_path(article),
+                edit_path: edit_admin_article_path(article),
+                delete_path: admin_article_path(article) %>
+            </td>
+        </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<%= render "admin/shared/pagination", pagy: @pagy %>

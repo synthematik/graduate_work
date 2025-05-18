@@ -2,7 +2,7 @@ class Event < ApplicationRecord
   belongs_to :user
 
   validates :title, :starts_at, presence: true
-  validates :title, :description, length: {maximum: 100}
+  validates :title, :body, length: {maximum: 100}
 
   scope :published, -> {
     where(published: true)

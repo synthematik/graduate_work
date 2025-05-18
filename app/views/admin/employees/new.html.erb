@@ -1,0 +1,19 @@
+<% content_for :page_title do %>
+  Новый сотрудник
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Сотрудники", path: admin_employees_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "Создание", path: new_admin_employee_path %>
+<% end %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-800">
+      <i class="fas fa-user-plus text-teal-500 mr-2"></i> Создание нового сотрудника
+    </h2>
+  </div>
+  <div class="p-6">
+    <%= render "form", employee: @employee %>
+  </div>
+</div>

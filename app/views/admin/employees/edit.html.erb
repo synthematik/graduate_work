@@ -1,0 +1,20 @@
+<% content_for :page_title do %>
+  Редактирование сотрудника
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Сотрудники", path: admin_employees_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "#{@employee.last_name} #{@employee.first_name}".truncate(25), path: admin_employee_path(@employee) %>
+  <%= render "admin/shared/breadcrumb_item", name: "Редактирование", path: edit_admin_employee_path(@employee) %>
+<% end %>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-800">
+      <i class="fas fa-user-edit text-teal-500 mr-2"></i> Редактирование сотрудника
+    </h2>
+  </div>
+  <div class="p-6">
+    <%= render "form", employee: @employee %>
+  </div>
+</div>

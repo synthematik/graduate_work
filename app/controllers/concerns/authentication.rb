@@ -24,6 +24,10 @@ module Authentication
       user
     end
 
+    def user_signed_in_and_employee?
+      current_user.present? && current_user.employee?
+    end
+
     def user_signed_in?
       current_user.present?
     end

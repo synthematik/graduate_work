@@ -1,0 +1,21 @@
+<% content_for :page_title do %>
+  Создание кафедры
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Кафедры", path: admin_departments_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "Создание кафедры", path: new_admin_department_path %>
+<% end %>
+
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">Создание кафедры</h1>
+</div>
+
+<div class="bg-white shadow rounded-lg overflow-hidden">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h3 class="text-lg font-medium text-gray-700">Форма создания кафедры</h3>
+  </div>
+  <div class="p-6">
+    <%= render "form", department: @department %>
+  </div>
+</div>

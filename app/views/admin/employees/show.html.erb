@@ -1,0 +1,160 @@
+<% content_for :page_title do %>
+  Просмотр сотрудника
+<% end %>
+
+<% content_for :breadcrumbs do %>
+  <%= render "admin/shared/breadcrumb_item", name: "Сотрудники", path: admin_employees_path %>
+  <%= render "admin/shared/breadcrumb_item", name: "#{@employee.last_name} #{@employee.first_name}".truncate(25), path: admin_employee_path(@employee) %>
+<% end %>
+
+<div class="flex flex-col space-y-6">
+  <!-- Заголовок и кнопки действий -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Просмотр сотрудника</h1>
+      <p class="text-lg text-gray-900 mt-1">ID: <%= @employee.id %></p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to edit_admin_employee_path(@employee),
+                  class: "inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors" do %>
+        <i class="fas fa-edit mr-2"></i> Редактировать
+      <% end %>
+      <%= button_to admin_employee_path(@employee),
+                    method: :delete,
+                    form: {
+                      data: {
+                        turbo_confirm: "Вы уверены, что хотите удалить сотрудника #{@employee.last_name} #{@employee.first_name}?"
+                      }
+                    },
+                    class: "inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors" do %>
+        <i class="fas fa-trash mr-2"></i> Удалить
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Основная информация -->
+  <div class="bg-white shadow rounded-xl overflow-hidden">
+    <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+      <h2 class="text-lg font-semibold text-gray-800">
+        <i class="fas fa-user-tie text-teal-500 mr-2"></i> Информация о сотруднике
+      </h2>
+    </div>
+    <div class="p-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">ФИО</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-id-card text-gray-400 mr-2"></i>
+              <%= "#{@employee.last_name} #{@employee.first_name} #{@employee.middle_name}".strip %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Должность</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-briefcase text-gray-400 mr-2"></i>
+              <%= @employee.position.presence || "Не указана" %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Кафедра</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-building text-gray-400 mr-2"></i>
+              <% if @employee.department.present? %>
+                <%= link_to @employee.department.name, admin_department_path(@employee.department), class: "text-teal-600 hover:text-teal-700" %>
+              <% else %>
+                <span class="text-gray-500">Не указана</span>
+              <% end %>
+            </dd>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Email</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-envelope text-gray-400 mr-2"></i>
+              <%= @employee.user.email.presence || "Не указан" %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Учёная степень</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-graduation-cap text-gray-400 mr-2"></i>
+              <%= @employee.degree.presence || "Не указана" %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Учёное звание</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="fas fa-award text-gray-400 mr-2"></i>
+              <%= @employee.rank.presence || "Не указано" %>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-gray-500">Дата создания</dt>
+            <dd class="mt-1 text-gray-900 flex items-center">
+              <i class="far fa-calendar-plus text-gray-400 mr-2"></i>
+              <%= l @employee.created_at, format: :long %>
+            </dd>
+          </div>
+        </div>
+      </div>
+
+      <!-- Биография -->
+      <% if @employee.description.present? %>
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <dt class="text-sm font-medium text-gray-500">Описание деятельности</dt>
+          <dd class="mt-2 text-gray-900">
+            <%= simple_format(@employee.description) %>
+          </dd>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- Информация о пользователе -->
+  <% if @employee.user.present? %>
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h2 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-user-circle text-teal-500 mr-2"></i> Связанный пользователь
+        </h2>
+      </div>
+      <div class="p-6">
+        <div class="flex items-center">
+          <div class="flex-shrink-0 h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+            <i class="fas fa-user text-blue-600"></i>
+          </div>
+          <div class="ml-4">
+            <h3 class="text-lg font-medium text-gray-900">
+              <%= link_to @employee.user.email, admin_user_path(@employee.user), class: "text-teal-600 hover:text-teal-700" %>
+            </h3>
+            <p class="text-sm text-gray-500">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                          <%= role_badge_color(@employee.user.role) %>">
+                <%= @employee.user.role.humanize %>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% content_for :head do %>
+  <script>
+      function dayOfWeekRu(day) {
+          const days = {
+              0: "Воскресенье",
+              1: "Понедельник",
+              2: "Вторник",
+              3: "Среда",
+              4: "Четверг",
+              5: "Пятница",
+              6: "Суббота"
+          };
+          return days[day] || "";
+      }
+  </script>
+<% end %>

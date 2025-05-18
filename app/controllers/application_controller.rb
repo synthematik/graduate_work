@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def load_data
-    @notifications = ::Notification.order(updated_at: :desc).limit(5)
+    @notifications = ::Notification.published.order(updated_at: :desc).limit(5)
     @events = ::Event.published.order(starts_at: :asc).limit(5)
   end
 end

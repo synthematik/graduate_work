@@ -1,0 +1,39 @@
+<%= form_with model: [:admin, department], local: true, class: "space-y-6" do |f| %>
+  <%= render "admin/shared/form_errors", resource: department %>
+
+  <div class="grid grid-cols-1 gap-6">
+    <!-- Основная информация -->
+    <div class="bg-white shadow rounded-xl overflow-hidden">
+      <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+        <h3 class="text-lg font-semibold text-gray-800">
+          <i class="fas fa-university text-teal-500 mr-2"></i> Основные данные
+        </h3>
+      </div>
+      <div class="p-6">
+        <div class="space-y-6">
+          <div>
+            <%= f.label :name, "Название кафедры*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_field :name, required: true,
+                             class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500",
+                             placeholder: "Например: Кафедра высшей математики" %>
+          </div>
+
+          <div>
+            <%= f.label :description, "Описание кафедры*", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.text_area :description, rows: 4, required: true,
+                            class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500",
+                            placeholder: "Краткое описание деятельности кафедры, основные направления работы" %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="flex justify-end space-x-3 pt-4">
+      <%= link_to "Отмена", admin_departments_path,
+                  class: "px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500" %>
+      <%= f.submit department.persisted? ? "Обновить кафедру" : "Создать кафедру",
+                   class: "px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+    </div>
+  </div>
+<% end %>
