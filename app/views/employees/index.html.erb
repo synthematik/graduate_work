@@ -1,0 +1,233 @@
+<!-- app/views/employees/index.html.erb -->
+<% content_for :title, "Сотрудники - Институт математики, механики и компьютерных наук" %>
+
+<div class="max-w mx-auto">
+  <!-- Заголовок -->
+  <div class="bg-gradient-to-r from-teal-600 to-teal-700 rounded-xl shadow-lg p-6 mb-8 text-white">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">
+          <i class="fas fa-users mr-3"></i>
+          <% if @selected_department %>
+            Сотрудники кафедры "<%= @selected_department.name %>"
+          <% else %>
+            Наши сотрудники
+          <% end %>
+        </h1>
+        <p class="text-teal-100 text-lg">
+          <% if @selected_department %>
+            <%= pluralize(@pagy.count, 'сотрудник', 'сотрудника') %> кафедры
+          <% else %>
+            Преподаватели, исследователи и административный персонал института
+          <% end %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Фильтры и поиск -->
+  <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
+    <div class="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
+      <%= form_with url: employees_path, method: :get, class: "w-full", local: true do |f| %>
+        <div class="flex flex-col md:flex-row gap-4 w-full">
+          <!-- Поиск -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-search mr-1 text-teal-500"></i>Поиск по имени
+            </label>
+            <%= f.text_field :search,
+                             value: params[:search],
+                             placeholder: "Введите имя или фамилию...",
+                             class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" %>
+          </div>
+
+          <!-- Фильтр по кафедре -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-filter mr-1 text-teal-500"></i>Кафедра
+            </label>
+            <%= f.select :department_id,
+                         options_from_collection_for_select(@departments, :id, :name, params[:department_id]),
+                         { include_blank: "Все кафедры" },
+                         { class: "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" } %>
+          </div>
+
+          <!-- Кнопки -->
+          <div class="flex gap-2 md:mt-7">
+            <%= f.submit "Найти", class: "bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center" %>
+            <%= link_to employees_path, class: "bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors flex items-center" do %>
+              <i class="fas fa-times mr-1"></i>Сбросить
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Быстрые фильтры -->
+    <div class="mt-4 pt-4 border-t border-gray-100">
+      <div class="flex flex-wrap gap-2">
+        <span class="text-sm font-medium text-gray-600 mr-2">Быстрые фильтры:</span>
+        <%= link_to employees_path,
+                    class: "text-xs px-3 py-1 rounded-full transition-colors #{'bg-teal-500 text-white' if params[:department_id].blank?} #{'bg-gray-200 text-gray-700 hover:bg-gray-300' unless params[:department_id].blank?}" do %>
+          Все сотрудники
+        <% end %>
+        <% @departments.limit(5).each do |dept| %>
+          <%= link_to employees_path(department_id: dept.id),
+                      class: "text-xs px-3 py-1 rounded-full transition-colors #{params[:department_id] == dept.id.to_s ? 'bg-teal-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}" do %>
+            <%= truncate(dept.name, length: 30) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Сетка сотрудников -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-24 mb-8">
+    <% @employees.each do |employee| %>
+      <div class="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+        <!-- Аватар и имя -->
+        <div class="p-6 text-center bg-gradient-to-br from-teal-50 to-teal-100">
+          <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+            <%= employee.first_name&.first&.upcase %><%= employee.last_name&.first&.upcase %>
+          </div>
+          <h3 class="text-lg font-bold text-gray-800 mb-1 group-hover:text-teal-600 transition-colors">
+            <%= employee.full_name %>
+          </h3>
+          <% if employee.degree.present? %>
+            <p class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full inline-block">
+              <%= employee.degree %>
+            </p>
+          <% end %>
+          <% if employee.rank.present? %>
+            <p class="text-xs text-gray-600 bg-gray-100 px-3 py-1 rounded-full inline-block">
+              <%= employee.rank %>
+            </p>
+          <% end %>
+        </div>
+
+        <!-- Информация -->
+        <div class="p-6">
+          <!-- Кафедра -->
+          <% if employee.department %>
+            <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+              <div class="flex items-center text-sm">
+                <i class="fas fa-university mr-2 text-teal-500"></i>
+                <span class="font-medium text-gray-700">Кафедра:</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1 pl-5">
+                <%= link_to employee.department.name,
+                            employees_path(department_id: employee.department.id),
+                            class: "hover:text-teal-600 transition-colors" %>
+              </p>
+            </div>
+          <% end %>
+
+          <!-- Описание -->
+          <% if employee.description.present? %>
+            <div class="mb-4">
+              <p class="text-sm text-gray-600 leading-relaxed">
+                <%= truncate(employee.description, length: 100) %>
+              </p>
+              <% if employee.description.length > 100 %>
+                <button class="text-xs text-teal-600 hover:text-teal-700 font-medium mt-1 expand-bio">
+                  Читать полностью...
+                </button>
+              <% end %>
+            </div>
+          <% end %>
+
+          <!-- Контактная информация -->
+          <% if employee.user&.email.present? %>
+            <div class="flex items-center text-sm text-gray-600 mb-2">
+              <i class="fas fa-envelope mr-2 text-teal-500"></i>
+              <a href="mailto:<%= employee.user.email %>" class="hover:text-teal-600 transition-colors truncate">
+                <%= employee.user.email %>
+              </a>
+            </div>
+          <% end %>
+
+          <!-- Дополнительная информация (если есть ссылки) -->
+          <% if employee.links.present? && employee.links.any? %>
+            <div class="pt-3 border-t border-gray-100">
+              <div class="flex flex-wrap gap-2">
+                <% employee.links.each do |key, url| %>
+                  <% if url.present? %>
+                    <a href="<%= url %>" target="_blank"
+                       class="text-xs bg-teal-100 text-teal-700 px-2 py-1 rounded-full hover:bg-teal-200 transition-colors">
+                      <i class="fas fa-external-link-alt mr-1"></i><%= key.humanize %>
+                    </a>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Скрытая полная биография -->
+        <% if employee.description.present? && employee.description.length > 100 %>
+          <div class="hidden bio-full bg-gray-50 p-6 border-t">
+            <h4 class="font-semibold text-gray-800 mb-2">О сотруднике:</h4>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              <%= simple_format(employee.description) %>
+            </p>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Сообщение если нет результатов -->
+  <% if @employees.empty? %>
+    <div class="text-center py-12">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 max-w-md mx-auto">
+        <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-700 mb-2">Сотрудники не найдены</h3>
+        <p class="text-gray-500 mb-4">
+          Попробуйте изменить параметры поиска или выберите другую кафедру
+        </p>
+        <%= link_to employees_path, class: "bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-lg inline-flex items-center transition-colors" do %>
+          <i class="fas fa-arrow-left mr-2"></i>Показать всех
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- Пагинация -->
+  <% if @pagy.pages > 1 %>
+    <div class="flex justify-center mb-8">
+      <nav class="bg-white rounded-lg shadow-sm border border-gray-200 p-2">
+        <%== pagy_nav(@pagy) if respond_to?(:pagy_nav) %>
+      </nav>
+    </div>
+  <% end %>
+
+  <!-- Кнопка "Все кафедры" -->
+  <% if @selected_department %>
+    <div class="text-center">
+      <%= link_to departments_path, class: "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl" do %>
+        <i class="fas fa-university mr-2"></i>
+        Посмотреть все кафедры
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработка кнопок "Читать полностью"
+        document.querySelectorAll('.expand-bio').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.group');
+                const fullBio = card.querySelector('.bio-full');
+
+                if (fullBio.classList.contains('hidden')) {
+                    fullBio.classList.remove('hidden');
+                    this.textContent = 'Скрыть...';
+                } else {
+                    fullBio.classList.add('hidden');
+                    this.textContent = 'Читать полностью...';
+                }
+            });
+        });
+    });
+</script>

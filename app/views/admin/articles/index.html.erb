@@ -26,7 +26,7 @@
         <tr>
             <td><%= article.id %></td>
             <td><%= article.title %></td>
-            <td><%= article.body.truncate(300) %></td>
+            <td><%= article.content.to_plain_text.truncate(300) %></td>
             <td><%= l article.created_at, format: :short %></td>
             <td>
                 <%= render "admin/shared/action_buttons",

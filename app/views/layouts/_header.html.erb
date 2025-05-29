@@ -32,8 +32,8 @@
         <ul class="flex space-x-4 text-gray-800">
           <li><a href="/" class="nav-item font-medium hover:text-teal-500 transition duration-300">Главная</a></li>
           <%= link_to "Расписание", schedules_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
-          <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Сотрудники</a></li>
-          <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Кафедры</a></li>
+          <%= link_to "Сотрудники", employees_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
+          <%= link_to "Кафедры", departments_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
         </ul>
 
         <div class="md:hidden flex items-center space-x-2">
@@ -49,8 +49,8 @@
         <ul class="flex space-x-6 text-gray-800 mx-auto">
           <li><a href="/" class="nav-item font-medium hover:text-teal-500 transition duration-300">Главная</a></li>
           <%= link_to "Расписание", schedules_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
-          <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Сотрудники</a></li>
-          <li><a href="/contacts" class="nav-item font-medium hover:text-teal-500 transition duration-300">Кафедры</a></li>
+          <%= link_to "Сотрудники", employees_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
+          <%= link_to "Кафедры", departments_path, class:"nav-item font-medium hover:text-teal-500 transition duration-300"%>
         </ul>
 
         <div class="flex items-center space-x-4 ml-4">

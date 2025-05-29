@@ -1,0 +1,243 @@
+<!-- app/views/departments/show.html.erb -->
+<% content_for :title, "#{@department.name} - Кафедры - Институт математики, механики и компьютерных наук" %>
+
+<div class="max-w mx-auto">
+  <!-- Хлебные крошки -->
+  <nav class="mb-6 text-sm text-gray-600">
+    <div class="flex items-center space-x-2">
+      <%= link_to "Главная", "/", class: "hover:text-teal-600 transition-colors" %>
+      <i class="fas fa-chevron-right text-xs"></i>
+      <%= link_to "Кафедры", departments_path, class: "hover:text-teal-600 transition-colors" %>
+      <i class="fas fa-chevron-right text-xs"></i>
+      <span class="text-gray-800 font-medium"><%= truncate(@department.name, length: 50) %></span>
+    </div>
+  </nav>
+
+  <!-- Заголовок кафедры -->
+  <div class="bg-gradient-to-r from-teal-600 to-teal-700 rounded-xl shadow-lg p-8 mb-8 text-white">
+    <div class="flex flex-col lg:flex-row justify-between items-start">
+      <div class="flex-1">
+        <div class="flex items-center mb-4">
+          <div class="w-16 h-16 bg-teal-500 bg-opacity-30 rounded-full flex items-center justify-center mr-4 text-2xl">
+            <i class="fas fa-university"></i>
+          </div>
+          <div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">
+              <%= @department.name %>
+            </h1>
+            <p class="text-teal-100 text-lg">
+              <%= pluralize(@department.employees.count, 'сотрудник', 'сотрудника') %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Быстрые действия -->
+    <div class="flex flex-wrap gap-3 mt-6 pt-6 border-t border-teal-500 border-opacity-30">
+      <%= link_to employees_path(department_id: @department.id),
+                  class: "bg bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center" do %>
+        <i class="fas fa-users mr-2"></i>Все сотрудники
+      <% end %>
+      <%= link_to departments_path,
+                  class: "bg bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 flex items-center" do %>
+        <i class="fas fa-list mr-2"></i>Другие кафедры
+      <% end %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Основная информация -->
+    <div class="lg:col-span-2 space-y-8">
+      <!-- Описание -->
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+          <i class="fas fa-info-circle mr-3 text-teal-500"></i>
+          О кафедре
+        </h2>
+        <div class="prose prose-teal max-w-none">
+          <%= simple_format(@department.description, class: "text-gray-600 leading-relaxed") %>
+        </div>
+      </div>
+
+      <!-- Сотрудники -->
+      <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+            <i class="fas fa-users mr-3 text-teal-500"></i>
+            Сотрудники кафедры
+          </h2>
+          <% if @employees.count > 12 %>
+            <%= link_to employees_path(department_id: @department.id),
+                        class: "text-teal-600 hover:text-teal-700 font-medium flex items-center text-sm" do %>
+              Показать всех (<%= @employees.count %>) <i class="fas fa-arrow-right ml-1"></i>
+            <% end %>
+          <% end %>
+        </div>
+
+        <% if @employees.any? %>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <% @employees.each do |employee| %>
+              <div class="border border-gray-200 rounded-lg p-4 hover:border-teal-300 hover:shadow-md transition-all duration-300 group">
+                <div class="flex items-start space-x-3">
+                  <!-- Аватар -->
+                  <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">
+                    <%= employee.first_name&.first&.upcase %><%= employee.last_name&.first&.upcase %>
+                  </div>
+
+                  <!-- Информация -->
+                  <div class="flex-1 min-w-0">
+                    <h3 class="font-semibold text-gray-800 group-hover:text-teal-600 transition-colors">
+                      <%= employee.full_name %>
+                    </h3>
+                    <% if employee.degree.present? %>
+                      <p class="text-sm text-teal-600 font-medium"><%= employee.degree %></p>
+                    <% end %>
+                    <% if employee.rank.present? %>
+                      <p class="text-xs text-gray-500"><%= employee.rank %></p>
+                    <% end %>
+                    <% if employee.user&.email.present? %>
+                      <a href="mailto:<%= employee.user.email %>"
+                         class="text-xs text-gray-600 hover:text-teal-600 flex items-center mt-2">
+                        <i class="fas fa-envelope mr-1"></i>
+                        <%= truncate(employee.user.email, length: 25) %>
+                      </a>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <!-- Пагинация для сотрудников -->
+          <% if @pagy.pages > 1 %>
+            <div class="mt-6 flex justify-center">
+              <nav class="bg-gray-50 rounded-lg p-2">
+                <%== pagy_nav(@pagy) if respond_to?(:pagy_nav) %>
+              </nav>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center py-8 text-gray-500">
+            <i class="fas fa-users text-4xl mb-4"></i>
+            <p>В данной кафедре пока нет сотрудников</p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Боковая панель -->
+    <div class="space-y-6">
+      <!-- Быстрая информация -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-chart-bar mr-2 text-teal-500"></i>
+          Статистика
+        </h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm text-gray-600">Всего сотрудников:</span>
+            <span class="font-bold text-teal-600"><%= @department.employees.count %></span>
+          </div>
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm text-gray-600">С ученой степенью:</span>
+            <span class="font-bold text-teal-600"><%= @department.employees.where.not(degree: [nil, '']).count %></span>
+          </div>
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span class="text-sm text-gray-600">С контактами:</span>
+            <span class="font-bold text-teal-600"><%= @department.employees.joins(:user).where.not(users: {email: nil}).count %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Другие кафедры -->
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+          <i class="fas fa-building mr-2 text-teal-500"></i>
+          Другие кафедры
+        </h3>
+        <div class="space-y-2">
+          <% Department.where.not(id: @department.id).order(name: :asc).limit(5).each do |dept| %>
+            <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors">
+              <%= link_to dept.name, department_path(dept),
+                          class: "text-sm text-gray-700 hover:text-teal-600 flex-1 truncate" %>
+              <span class="text-xs text-gray-500 ml-2"><%= dept.employees.count %></span>
+            </div>
+          <% end %>
+          <div class="pt-2 border-t border-gray-100">
+            <%= link_to departments_path,
+                        class: "text-sm text-teal-600 hover:text-teal-700 font-medium flex items-center justify-center" do %>
+              Показать все <i class="fas fa-arrow-right ml-1"></i>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Модальное окно с контактами -->
+<% if @department.employees.joins(:user).where.not(users: {email: nil}).any? %>
+  <div id="contactsModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+      <div class="bg-gradient-to-r from-teal-600 to-teal-700 text-white p-6">
+        <div class="flex justify-between items-center">
+          <h3 class="text-xl font-bold">Контакты сотрудников</h3>
+          <button onclick="hideContactsModal()" class="text-white hover:text-gray-200 text-2xl">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="p-6 max-h-96 overflow-y-auto">
+        <div class="space-y-4">
+          <% @department.employees.joins(:user).where.not(users: {email: nil}).order(last_name: :asc).each do |employee| %>
+            <div class="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
+              <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                <%= employee.first_name&.first&.upcase %><%= employee.last_name&.first&.upcase %>
+              </div>
+              <div class="flex-1">
+                <div class="font-medium text-gray-800"><%= employee.full_name %></div>
+                <% if employee.degree.present? %>
+                  <div class="text-sm text-teal-600"><%= employee.degree %></div>
+                <% end %>
+                <a href="mailto:<%= employee.user.email %>" class="text-sm text-gray-600 hover:text-teal-600">
+                  <%= employee.user.email %>
+                </a>
+              </div>
+              <a href="mailto:<%= employee.user.email %>"
+                 class="bg-teal-500 hover:bg-teal-600 text-white p-2 rounded-lg transition-colors">
+                <i class="fas fa-envelope"></i>
+              </a>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+    function showContactsModal() {
+        document.getElementById('contactsModal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function hideContactsModal() {
+        document.getElementById('contactsModal').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Закрытие модального окна по клику вне его
+    document.getElementById('contactsModal')?.addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideContactsModal();
+        }
+    });
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            hideContactsModal();
+        }
+    });
+</script>

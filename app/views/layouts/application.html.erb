@@ -17,7 +17,8 @@
      <link rel="icon" href="/icon.png" type="image/png">
      <link rel="icon" href="/icon.svg" type="image/svg+xml">
      <link rel="apple-touch-icon" href="/icon.png">
-    <!-- <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %> -->
+    <%= stylesheet_link_tag "trix" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
     <style>
         body {
@@ -143,8 +144,8 @@
         }
     </style>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+    <script type="module">
+        document.addEventListener('turbo:load', function() {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 

@@ -15,6 +15,7 @@
   <link rel="icon" href="/icon.png" type="image/png">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/icon.png">
+  <%= stylesheet_link_tag "trix" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
 
   <style>
@@ -108,7 +109,7 @@
 <div class="w-64 bg-white shadow-md overflow-y-auto h-screen fixed">
   <div class="p-4 border-b border-gray-200">
     <div class="flex items-center justify-center">
-      <h1 class="text-xl font-semibold text-gray-800">Панель админа</h1>
+      <h1 class="text-xl font-semibold text-gray-800">Админ-панель</h1>
     </div>
   </div>
 
@@ -169,7 +170,7 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('turbo:load', function() {
         const dropdownButtons = document.querySelectorAll('.dropdown-button');
 
         dropdownButtons.forEach(button => {

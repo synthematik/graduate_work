@@ -38,8 +38,10 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new article_params
-    if @article.save
+    article_params.merge({user_id: current_user.id})
+
+    @article = Article.new article_params.merge({user_id: current_user.id})
+    if @article.save!
       redirect_to root_path, notice: "Статья успешно создана"
     else
       render :new
@@ -49,7 +51,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit(:title, :body, photos: [])
+    params.require(:article).permit(:title, :content, photos: [])
   end
 
   def set_article

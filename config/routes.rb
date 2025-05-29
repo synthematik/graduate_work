@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :schedules
   resources :events
   resources :users
+  resources :departments, only: [:index, :show]
+  resources :employees, only: [:index, :show]
   resources :photos, only: [:destroy]
   resource :session, only: [:new, :create, :destroy]
 
