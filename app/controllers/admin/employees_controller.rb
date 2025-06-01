@@ -1,7 +1,7 @@
 class Admin::EmployeesController < Admin::BaseController
   before_action :set_employee, only: [:show, :edit, :update, :destroy]
   before_action :set_departments, only: [:new, :create, :edit, :update]
-  before_action :set_users_without_employee, only: [:new, :create]
+  before_action :set_users_without_employee, only: [:new, :create, :edit]
 
   def index
     @employees = Employee.includes(:user, :department)
@@ -67,10 +67,10 @@ class Admin::EmployeesController < Admin::BaseController
   end
 
   def set_users_without_employee
-    # Находим пользователей, у которых еще нет профиля сотрудника
+    # Все пользователи без сотрудника + текущий пользователь сотрудника (если есть)
     @available_users = User.left_outer_joins(:employee)
-      .where(employees: {id: nil})
-      .order(:login)
+      .where("employees.id IS NULL OR employees.id = ?", @employee&.id)
+      .order(:email)
   end
 
   def employee_params
@@ -83,6 +83,7 @@ class Admin::EmployeesController < Admin::BaseController
       :degree,
       :rank,
       :description,
+      :position,
       links: {}
     )
   end

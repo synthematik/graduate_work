@@ -113,16 +113,23 @@
               <i class="fas fa-user text-teal-600"></i>
             </div>
             <div class="ml-3">
-              <p class="text-sm font-medium text-gray-900"><%= user.email %></p>
+              <p class="text-sm font-medium text-gray-900"><%= user&.email %></p>
               <p class="text-sm text-gray-500">Будет привязан к профилю сотрудника</p>
             </div>
-            <%= f.hidden_field :user_id, value: user.id %>
+            <%= f.hidden_field :user_id, value: user&.id %>
           </div>
         <% else %>
           <div>
-            <%= f.label :user_id, "Пользователь*", class: "block text-sm font-medium text-gray-700" %>
-            <%= f.collection_select :user_id, @available_users, :id, :email,
-                                    { include_blank: "Создайте нужного пользователя" },
+            <%= f.label :user_id, "Пользователь", class: "block text-sm font-medium text-gray-700" %>
+            <%= f.collection_select :user_id,
+                                    @available_users,
+                                    :id,
+                                    :email,
+                                    {
+                                      include_blank: "Не привязывать к пользователю",
+                                      selected: @employee.user_id,
+                                      disabled: @employee.user_id.present? ? [@employee.user_id] : []
+                                    },
                                     class: "mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500" %>
             <p class="mt-1 text-xs text-gray-500">
               Выберите пользователя для связи с профилем сотрудника (необязательно)
